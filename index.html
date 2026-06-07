@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>EnglishWithTunahan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: radial-gradient(circle at top, #1a1f2e, #0b0f1a);
+      overflow: hidden;
+      color: white;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    .bg-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: #6c5ce7;
+      filter: blur(160px);
+      opacity: 0.25;
+      top: -150px;
+      left: -150px;
+    }
+
+    .bg-glow2 {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: #00d2ff;
+      filter: blur(180px);
+      opacity: 0.2;
+      bottom: -150px;
+      right: -150px;
+    }
+
+    .container {
+      position: relative;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      z-index: 2;
+      padding: 20px;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 52px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      background: linear-gradient(90deg, #fff, #9aa7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      margin-top: 15px;
+      font-size: 16px;
+      opacity: 0.7;
+      max-width: 500px;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .primary {
+      background: linear-gradient(90deg, #6c5ce7, #00d2ff);
+      color: white;
+      box-shadow: 0 10px 30px rgba(108,92,231,0.3);
+    }
+
+    .primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .secondary {
+      background: rgba(255,255,255,0.05);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .secondary:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      bottom: 20px;
+      font-size: 12px;
+      opacity: 0.5;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-glow"></div>
+  <div class="bg-glow2"></div>
+
+  <div class="container">
+    <div class="badge">🚀 English With Tunahan</div>
+
+    <h1>Modern English Learning with Our Platform
+    </h1>
+
+    <p>
+      Download high-quality English learning slides all in one secure place; learn or teach!
+    </p>
+
+    <div class="buttons">
+      <button class="primary" onclick="googleLogin()">Continue via Google</button>
+      <button class="secondary" onclick="guestLogin()">Guest Login</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    made for education • modern dashboard system • made by  <a href="https://github.com/Mustiskooo/" target="_blank"> M.Said YAZICI (click here) </a> • 2026
+  </div>
+
+  <script>
+    function guestLogin() {
+      window.location.href = "dashboard.html";
+    }
+
+    function googleLogin() {
+      alert("Firebase auth bağlanacak buraya 🔥");
+    }
+  </script>
+
+</body>
+</html>
