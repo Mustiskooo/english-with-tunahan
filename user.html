@@ -20,6 +20,7 @@
       height: 100vh;
       background: #0b0f1a;
       color: white;
+      overflow: hidden;
     }
 
     /* SIDEBAR */
@@ -32,6 +33,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: 0.3s;
     }
 
     .logo {
@@ -63,11 +65,9 @@
     /* MAIN */
     .main {
       flex: 1;
-      padding: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
     }
 
     .card {
@@ -77,6 +77,7 @@
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
       text-align: center;
+      backdrop-filter: blur(10px);
     }
 
     .avatar {
@@ -108,10 +109,47 @@
       font-weight: 600;
     }
 
+    /* HAMBURGER */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        height: 100%;
+        z-index: 999;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- HAMBURGER -->
+  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
@@ -127,27 +165,32 @@
 
   <!-- MAIN -->
   <div class="main">
-
     <div class="card">
-      <img id="avatar" class="avatar" src="">
-      <div class="name" id="name">User</div>
-      <div class="email" id="email">email</div>
+      <img id="avatar" class="avatar">
+      <div class="name" id="name"></div>
+      <div class="email" id="email"></div>
 
       <button class="btn" onclick="logout()">Logout</button>
     </div>
-
   </div>
 
   <script>
+    // MENU TOGGLE
+    function toggleMenu() {
+      document.querySelector(".sidebar").classList.toggle("active");
+    }
+
+    // USER LOAD
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
       window.location.href = "index.html";
     }
 
-    document.getElementById("name").innerText = user.name;
-    document.getElementById("email").innerText = user.email;
-    document.getElementById("avatar").src = user.photo || "https://i.imgur.com/6VBx3io.png";
+    document.getElementById("name").innerText = user.name || "User";
+    document.getElementById("email").innerText = user.email || "";
+    document.getElementById("avatar").src =
+      user.photo || "https://ui-avatars.com/api/?name=User";
 
     function logout() {
       localStorage.removeItem("user");
