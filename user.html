@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: #0b0f1a;
+      color: white;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      padding: 20px;
+      background: rgba(255,255,255,0.03);
+      border-right: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bottom-btn {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      text-align: left;
+      transition: 0.2s;
+    }
+
+    .bottom-btn:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .card {
+      width: 320px;
+      padding: 25px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .name {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .email {
+      font-size: 13px;
+      opacity: 0.6;
+      margin-top: 5px;
+    }
+
+    .btn {
+      margin-top: 20px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
+      color: white;
+      font-weight: 600;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div>
+      <div class="logo">EnglishWithTunahan</div>
+    </div>
+
+    <div>
+      <button class="bottom-btn" onclick="goDashboard()">📚 Dashboard</button>
+      <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <div class="card">
+      <img id="avatar" class="avatar" src="">
+      <div class="name" id="name">User</div>
+      <div class="email" id="email">email</div>
+
+      <button class="btn" onclick="logout()">Logout</button>
+    </div>
+
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("name").innerText = user.name;
+    document.getElementById("email").innerText = user.email;
+    document.getElementById("avatar").src = user.photo || "https://i.imgur.com/6VBx3io.png";
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "index.html";
+    }
+
+    function goDashboard() {
+      window.location.href = "dashboard.html";
+    }
+  </script>
+
+</body>
+</html>
