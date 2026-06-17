@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>User Profile</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,10 +18,12 @@
 
 body{
   display:flex;
-  height:100vh;
+  min-height:100vh;
+  height:auto;
+  overflow-x:hidden;
+  overflow-y: auto;
   background:#0b0f1a;
   color:white;
-  overflow:hidden;
 }
 
 /* SIDEBAR */
@@ -79,6 +82,7 @@ body{
 
 .card{
   width:320px;
+  max-width:90%;
   padding:25px;
   border-radius:16px;
   background:rgba(255,255,255,0.04);
@@ -153,6 +157,12 @@ body{
 
   .overlay.active{
     display:block;
+  }
+  @media (max-width:768px){
+  .main{
+    align-items:flex-start;
+    padding-top:80px;
+  }
   }
 }
 </style>
