@@ -22,7 +22,15 @@ document.getElementById("google-login").onclick = async () => {
 
     console.log("Giriş başarılı:", user.displayName);
 
+    // 🔥 DOĞRU YER BURASI
+    localStorage.setItem("user", JSON.stringify({
+      name: user.displayName || "",
+      email: user.email || "",
+      photo: user.photoURL || ""
+    }));
+
     window.location.href = "dashboard.html";
+
   } catch (err) {
     console.error("Login hata:", err);
   }
@@ -32,12 +40,3 @@ document.getElementById("google-login").onclick = async () => {
 document.getElementById("guest-login").onclick = () => {
   window.location.href = "dashboard.html";
 };
-
-// login sonrası
-  localStorage.setItem("user", JSON.stringify({
-    name: user.displayName,
-    email: user.email,
-    photo: user.photoURL
-  }));
-
-window.location.href = "dashboard.html";
