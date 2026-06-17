@@ -86,6 +86,23 @@
     .bottom-btn:hover {
       background: rgba(255,255,255,0.12);
     }
+    /* MENU TOGGLE (for mobile) */
+    .menu-toggle{
+      display:none;
+      position:fixed;
+      top:15px;
+      left:15px;
+      z-index:1000;
+
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+
+      color:white;
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      backdrop-filter:blur(12px);
+                }
 
     /* MAIN */
     .main {
@@ -139,6 +156,30 @@
       line-height: 1.4;
     }
 
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100%;
+        transition: 0.3s;
+        z-index: 999;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      main {
+        padding-top: 7px;
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 
@@ -158,12 +199,16 @@
 
     <div class="bottom-menu">
       <button class="bottom-btn">👤 Profile</button>
-      <button class="bottom-btn">📚 My Quizlet Sets</button>
+      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
+        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
+      </a>
       <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
     </div>
 
   </div>
-
+      <button class="menu-toggle" onclick="toggleMenu()">
+        ☰
+      </button>
   <!-- MAIN -->
   <div class="main">
 
@@ -277,6 +322,12 @@
 
     function logout() {
       window.location.href = "index.html";
+    }
+
+    function toggleMenu() {
+      document
+      .querySelector(".sidebar")
+      .classList.toggle("active");
     }
 
     loadClass(5);
