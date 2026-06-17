@@ -34,6 +34,7 @@
       flex-direction: column;
       justify-content: space-between;
       transition: 0.3s;
+      position: relative;
     }
 
     .logo {
@@ -149,7 +150,7 @@
 <body>
 
   <!-- HAMBURGER -->
-  <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  <button class="menu-toggle" id="menuBtn">☰</button>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
@@ -175,10 +176,15 @@
   </div>
 
   <script>
-    // MENU TOGGLE
-    function toggleMenu() {
-      document.querySelector(".sidebar").classList.toggle("active");
-    }
+    // HAMBURGER FIX (GARANTİ)
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("menuBtn");
+      const sidebar = document.querySelector(".sidebar");
+
+      btn.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+      });
+    });
 
     // USER LOAD
     const user = JSON.parse(localStorage.getItem("user"));
