@@ -32,3 +32,12 @@ document.getElementById("google-login").onclick = async () => {
 document.getElementById("guest-login").onclick = () => {
   window.location.href = "dashboard.html";
 };
+
+// login sonrası
+  localStorage.setItem("user", JSON.stringify({
+    name: user.displayName,
+    email: user.email,
+    photo: user.photoURL
+  }));
+
+window.location.href = "dashboard.html";
