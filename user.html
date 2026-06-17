@@ -110,21 +110,87 @@
       font-weight: 600;
     }
 
-    /* HAMBURGER */
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      z-index: 1000;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: white;
-      padding: 10px 14px;
-      border-radius: 12px;
-      cursor: pointer;
+    /* tuhaf yer */
+    .sidebar {
+      width: 250px;
+      padding: 20px;
+      background: rgba(255,255,255,0.03);
+      border-right: 1px solid rgba(255,255,255,0.08);
       backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+
+    .logo {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .class-btn {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      text-align: left;
+      transition: 0.2s;
+    }
+
+    .class-btn:hover {
+      background: rgba(108,92,231,0.25);
+      transform: translateX(3px);
+    }
+
+    .class-btn.active {
+      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
+    }
+
+    .bottom-menu {
+      margin-top: 20px;
+    }
+
+    .bottom-btn {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      text-align: left;
+      transition: 0.2s;
+      font-size: 13px;
+    }
+
+    .bottom-btn:hover {
+      background: rgba(255,255,255,0.12);
+    }
+    /* MENU TOGGLE (for mobile) */
+    .menu-toggle{
+      display:none;
+      position:fixed;
+      top:15px;
+      left:15px;
+      z-index:1000;
+
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+
+      color:white;
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      backdrop-filter:blur(12px);
+                }
 
     /* MOBILE */
     @media (max-width: 768px) {
@@ -149,20 +215,34 @@
 
 <body>
 
-  <!-- HAMBURGER -->
-  <button class="menu-toggle" id="menuBtn">☰</button>
-
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div>
-      <div class="logo">EnglishWithTunahan</div>
-    </div>
 
     <div>
-      <button class="bottom-btn" onclick="goDashboard()">📚 Dashboard</button>
+      <div class="logo">EnglishWithTunahan</div>
+
+      <button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
+      <button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
+      <button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
+      <button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
+    </div>
+
+    <div class="bottom-menu">
+      <a href="user.html">
+        <button class="bottom-btn">👤 Profile</button>
+      </a>
+      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
+        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
+      </a>
       <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
     </div>
+
+      <!-- HAMBURGER -->
+
   </div>
+      <button class="menu-toggle" onclick="toggleMenu()">
+        ☰
+      </button>
 
   <!-- MAIN -->
   <div class="main">
