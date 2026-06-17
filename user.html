@@ -1,292 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>User Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>User Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
 
-    body {
-      display: flex;
-      height: 100vh;
-      background: #0b0f1a;
-      color: white;
-      overflow: hidden;
-    }
+body{
+  display:flex;
+  height:100vh;
+  background:#0b0f1a;
+  color:white;
+  overflow:hidden;
+}
 
-    /* SIDEBAR */
-    .sidebar {
-      width: 250px;
-      padding: 20px;
-      background: rgba(255,255,255,0.03);
-      border-right: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: 0.3s;
-      position: relative;
-    }
+/* SIDEBAR */
+.sidebar{
+  width:250px;
+  padding:20px;
+  background:rgba(255,255,255,0.03);
+  border-right:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:0.3s;
+}
 
-    .logo {
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+/* LOGO */
+.logo{
+  font-weight:700;
+  font-size:18px;
+  margin-bottom:20px;
+  background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    .bottom-btn {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.05);
-      color: white;
-      text-align: left;
-      transition: 0.2s;
-    }
+/* BUTTONS */
+.class-btn,.bottom-btn{
+  width:100%;
+  padding:10px;
+  margin-bottom:8px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background:rgba(255,255,255,0.05);
+  color:white;
+  text-align:left;
+  transition:0.2s;
+}
 
-    .bottom-btn:hover {
-      background: rgba(255,255,255,0.12);
-    }
+.class-btn:hover{
+  background:rgba(108,92,231,0.25);
+  transform:translateX(3px);
+}
 
-    /* MAIN */
-    .main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.bottom-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
 
-    .card {
-      width: 320px;
-      padding: 25px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      text-align: center;
-      backdrop-filter: blur(10px);
-    }
+/* MAIN */
+.main{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-    .avatar {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-    }
+.card{
+  width:320px;
+  padding:25px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  text-align:center;
+  backdrop-filter:blur(10px);
+}
 
-    .name {
-      font-size: 20px;
-      font-weight: 700;
-    }
+.avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  margin-bottom:15px;
+}
 
-    .email {
-      font-size: 13px;
-      opacity: 0.6;
-      margin-top: 5px;
-    }
+.name{font-size:20px;font-weight:700;}
+.email{font-size:13px;opacity:0.6;margin-top:5px;}
 
-    .btn {
-      margin-top: 20px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
-      color: white;
-      font-weight: 600;
-    }
+.btn{
+  margin-top:20px;
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+  color:white;
+  font-weight:600;
+}
 
-    /* tuhaf yer */
-    .sidebar {
-      width: 250px;
-      padding: 20px;
-      background: rgba(255,255,255,0.03);
-      border-right: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+/* HAMBURGER */
+.menu-toggle{
+  display:none;
+  position:fixed;
+  top:15px;
+  left:15px;
+  z-index:1001;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  color:white;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+}
 
-    .logo {
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+/* OVERLAY */
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:998;
+}
 
-    .class-btn {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 8px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.05);
-      color: white;
-      text-align: left;
-      transition: 0.2s;
-    }
+/* MOBILE */
+@media (max-width:768px){
+  .sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    height:100%;
+    z-index:999;
+  }
 
-    .class-btn:hover {
-      background: rgba(108,92,231,0.25);
-      transform: translateX(3px);
-    }
+  .sidebar.active{
+    left:0;
+  }
 
-    .class-btn.active {
-      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
-    }
+  .menu-toggle{
+    display:block;
+  }
 
-    .bottom-menu {
-      margin-top: 20px;
-    }
-
-    .bottom-btn {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.05);
-      color: white;
-      text-align: left;
-      transition: 0.2s;
-      font-size: 13px;
-    }
-
-    .bottom-btn:hover {
-      background: rgba(255,255,255,0.12);
-    }
-    /* MENU TOGGLE (for mobile) */
-    .menu-toggle{
-      display:none;
-      position:fixed;
-      top:15px;
-      left:15px;
-      z-index:1000;
-
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.1);
-
-      color:white;
-      padding:10px 14px;
-      border-radius:12px;
-      cursor:pointer;
-      backdrop-filter:blur(12px);
-                }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        left: -260px;
-        top: 0;
-        height: 100%;
-        z-index: 999;
-      }
-
-      .sidebar.active {
-        left: 0;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-    }
-  </style>
+  .overlay.active{
+    display:block;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<div class="overlay" onclick="toggleMenu()"></div>
 
-    <div>
-      <div class="logo">EnglishWithTunahan</div>
+<div class="sidebar">
+  <div>
+    <div class="logo">EnglishWithTunahan</div>
 
-      <button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
-      <button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
-      <button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
-      <button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
-    </div>
-
-    <div class="bottom-menu">
-      <a href="user.html">
-        <button class="bottom-btn">👤 Profile</button>
-      </a>
-      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
-        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
-      </a>
-      <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
-    </div>
-
-      <!-- HAMBURGER -->
-
-  </div>
-      <button class="menu-toggle" onclick="toggleMenu()">
-        ☰
-      </button>
-
-  <!-- MAIN -->
-  <div class="main">
-    <div class="card">
-      <img id="avatar" class="avatar">
-      <div class="name" id="name"></div>
-      <div class="email" id="email"></div>
-
-      <button class="btn" onclick="logout()">Logout</button>
-    </div>
+    <button class="class-btn active">Grade 5</button>
+    <button class="class-btn">Grade 6</button>
+    <button class="class-btn">Grade 7</button>
+    <button class="class-btn">Grade 8</button>
   </div>
 
-  <script>
-    // HAMBURGER FIX (GARANTİ)
-    document.addEventListener("DOMContentLoaded", () => {
-      const btn = document.getElementById("menuBtn");
-      const sidebar = document.querySelector(".sidebar");
+  <div>
+    <button class="bottom-btn">👤 Profile</button>
+    <button class="bottom-btn">📚 Quizlet</button>
+    <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+</div>
 
-      btn.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
-      });
-    });
+<div class="main">
+  <div class="card">
+    <img id="avatar" class="avatar">
+    <div class="name" id="name"></div>
+    <div class="email" id="email"></div>
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
+</div>
 
-    // USER LOAD
-    const user = JSON.parse(localStorage.getItem("user"));
+<script>
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.querySelector(".overlay");
 
-    if (!user) {
-      window.location.href = "index.html";
-    }
+function toggleMenu(){
+  sidebar.classList.toggle("active");
+  overlay.classList.toggle("active");
+}
 
-    document.getElementById("name").innerText = user.name || "User";
-    document.getElementById("email").innerText = user.email || "";
-    document.getElementById("avatar").src =
-      user.photo || "https://ui-avatars.com/api/?name=User";
+// user
+const user = JSON.parse(localStorage.getItem("user"));
 
-    function logout() {
-      localStorage.removeItem("user");
-      window.location.href = "index.html";
-    }
+if(!user){
+  window.location.href="index.html";
+}
 
-    function goDashboard() {
-      window.location.href = "dashboard.html";
-    }
-  </script>
+document.getElementById("name").innerText=user.name||"User";
+document.getElementById("email").innerText=user.email||"";
+document.getElementById("avatar").src=user.photo||"https://ui-avatars.com/api/?name=User";
+
+function logout(){
+  localStorage.removeItem("user");
+  window.location.href="index.html";
+}
+</script>
 
 </body>
 </html>
