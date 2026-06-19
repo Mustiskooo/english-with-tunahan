@@ -58,6 +58,9 @@ Open `index.html`
 
 ## 🔐 Firebase Setup
 
+Add your config inside your JS file:
+
+```js
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_AUTH_DOMAIN",
@@ -66,6 +69,7 @@ const firebaseConfig = {
   messagingSenderId: "YOUR_SENDER_ID",
   appId: "YOUR_APP_ID"
 };
+```
 
 ---
 
