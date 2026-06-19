@@ -1,11 +1,15 @@
 # EnglishWithTunahan 🚀
-# Build By Muffixx *namıdiğer Yazıcı*
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
+![Firebase](https://img.shields.io/badge/firebase-used-orange.svg)
+![Language](https://img.shields.io/badge/language-javascript-yellow.svg)
+
+## Build By Muffixx *namıdiğer Yazıcı*
 
 A modern, lightweight platform designed to make English learning simple, interactive, and enjoyable.
 
 ---
-## License
--This project is licensed under the MIT License.
 
 ## ✨ Features
 
@@ -48,7 +52,7 @@ Open project folder:
 
 cd englishwithtunahan
 
-Then open index.html in your browser.
+Then open `index.html` in your browser.
 
 ---
 
@@ -73,12 +77,12 @@ Make English learning more modern, accessible, and enjoyable.
 
 ---
 
-## 📌 Status
+## 📌 License
 
-🚧 Active development – new features coming soon.
+This project is licensed under the MIT License.
 
 ---
 
 ## 👨‍💻 Developer
 
-Built with 💙 by Mustiskooo (namıdiğer *Yazıcı*)
+Built with 💙 by Muffixx (namıdiğer *Yazıcı*)
