@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>User Profile</title>
+<title>EnglishWithTunahan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -177,17 +177,26 @@ body{
   <div>
     <div class="logo">EnglishWithTunahan</div>
 
-    <button class="class-btn active">Grade 5</button>
-    <button class="class-btn">Grade 6</button>
-    <button class="class-btn">Grade 7</button>
-    <button class="class-btn">Grade 8</button>
-  </div>
+    <div>
+      <div class="logo">EnglishWithTunahan</div>
 
-  <div>
-    <button class="bottom-btn">👤 Profile</button>
-    <button class="bottom-btn">📚 Quizlet</button>
-    <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
+      <button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
+      <button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
+      <button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
+      <button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
+    </div>
   </div>
+  
+  <div class="bottom-menu">
+      <a href="user.html">
+        <button class="bottom-btn">👤 Profile</button>
+      </a>
+      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
+        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
+      </a>
+      <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+  
 </div>
 
 <div class="main">
