@@ -1,14 +1,17 @@
-<h1 align="center"> # EnglishWithTunahan 🚀 </h1>
+<h1 align="center">EnglishWithTunahan 🚀</h1>
+
 <p align="center">
+  <b>Build by Muffixx (namıdiğer Yazıcı)</b>
+</p>
+
+<p align="center">
+
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 ![Firebase](https://img.shields.io/badge/firebase-used-orange.svg)
 ![Language](https://img.shields.io/badge/language-html%20%2B%20javascript-yellow.svg)
+
 </p>
-
-<h1 align="center"> ## Build By Muffixx (*namıdiğer Yazıcı*) </h1>
-
-A modern, lightweight platform designed to make English learning simple, interactive, and enjoyable.
 
 ---
 
@@ -45,21 +48,15 @@ index.html → entry point
 
 ## 🚀 Getting Started
 
-Clone the repository:
-
 git clone https://github.com/Mustiskooo/englishwithtunahan.git
-
-Open project folder:
 
 cd englishwithtunahan
 
-Then open `index.html` in your browser.
+Open `index.html`
 
 ---
 
 ## 🔐 Firebase Setup
-
-Add your config inside your JS file:
 
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
@@ -86,4 +83,4 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Developer
 
-Built with 💙 by Muffixx (namıdiğer *Yazıcı*)
+Built with 💙 by Muffixx (namıdiğer Yazıcı)
