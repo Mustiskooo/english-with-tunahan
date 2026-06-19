@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 ![Firebase](https://img.shields.io/badge/firebase-used-orange.svg)
-![Language](https://img.shields.io/badge/language-javascript-yellow.svg)
+![Language](https://img.shields.io/badge/frontend-html%20%2B%20javascript-blue.svg)
 
 ## Build By Muffixx *namıdiğer Yazıcı*
 
