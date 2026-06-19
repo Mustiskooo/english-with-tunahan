@@ -1,7 +1,7 @@
 <h1 align="center">EnglishWithTunahan 🚀</h1>
 
 <p align="center">
-  <b>Build by Muffixx (namıdiğer Yazıcı)</b>
+  <i>Build by Muffixx ( namıdiğer *Yazıcı* )</i>
 </p>
 
 <div align="center">
