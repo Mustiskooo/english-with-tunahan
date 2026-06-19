@@ -1,4 +1,4 @@
-<h1 align="center">EnglishWithTunahan 🚀</h1>
+<h1 align="center"><a href="https://englishwithtunahan.vercel.app"><b> EnglishWithTunahan 🚀 </b></a></h1>
 
 <p align="center">
   <i>Build by Muffixx ( namıdiğer *Yazıcı* )</i>
@@ -14,10 +14,6 @@
 </div>
 
 ---
-
-<p align="center">
-  <a href="https://englishwithtunahan.vercel.app"><b>👉 Go To Website </b></a>
-</p>
 
 ## ✨ Features
 
