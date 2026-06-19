@@ -8,10 +8,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
-body{background:#0b0f1a;color:#fff}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter;
+}
 
-/* top */
+body{
+background:#0b0f1a;
+color:#fff;
+overflow-x:hidden;
+}
+
+/* TOP BAR */
 .top{
 display:flex;
 justify-content:space-between;
@@ -19,6 +29,9 @@ align-items:center;
 padding:15px 20px;
 background:rgba(255,255,255,0.03);
 border-bottom:1px solid rgba(255,255,255,0.08);
+position:sticky;
+top:0;
+backdrop-filter:blur(10px);
 }
 
 .back{
@@ -26,51 +39,101 @@ padding:6px 10px;
 border-radius:8px;
 background:rgba(255,255,255,0.05);
 cursor:pointer;
+transition:.2s;
+}
+.back:hover{
+background:rgba(108,92,231,0.25);
 }
 
-/* layout */
+/* MAIN */
 .container{
-display:grid;
-grid-template-columns:1fr 250px;
-gap:15px;
-padding:20px;
+max-width:800px;
+margin:0 auto;
+padding:25px;
 }
 
-.box{
-padding:16px;
-border-radius:12px;
+.card{
+padding:25px;
+border-radius:14px;
 background:rgba(255,255,255,0.03);
 border:1px solid rgba(255,255,255,0.08);
+animation:fade .25s ease;
 }
 
-.item{
-padding:10px;
-margin-bottom:8px;
-border-radius:8px;
-background:rgba(255,255,255,0.05);
-cursor:pointer;
+@keyframes fade{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
 }
-.item:hover{background:rgba(108,92,231,0.25)}
+
+h2{
+margin-bottom:10px;
+}
+
+p{
+opacity:.75;
+line-height:1.6;
+font-size:15px;
+}
+
+/* NAV */
+.nav{
+display:flex;
+justify-content:space-between;
+margin-top:20px;
+gap:10px;
+}
+
+.btn{
+flex:1;
+padding:10px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:rgba(255,255,255,0.05);
+color:white;
+transition:.2s;
+}
+
+.btn:hover{
+background:rgba(108,92,231,0.25);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.container{
+padding:15px;
+}
+
+.card{
+padding:18px;
+}
+
+p{
+font-size:14px;
+}
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-<div class="back" onclick="goBack()">← Back</div>
+<div class="back" onclick="goBack()">← Dashboard</div>
 <div id="title">Unit</div>
 <div></div>
 </div>
 
 <div class="container">
 
-<div class="box">
+<div class="card">
 <h2 id="unitTitle"></h2>
 <p id="desc"></p>
+
+<div class="nav">
+<button class="btn" onclick="prevUnit()">← Prev</button>
+<button class="btn" onclick="nextUnit()">Next →</button>
 </div>
 
-<div class="box">
-<div id="list"></div>
 </div>
 
 </div>
@@ -92,29 +155,35 @@ function render(){
 
 const arr = data[cls];
 
+if(unit < 1) unit = 1;
+if(unit > arr.length) unit = arr.length;
+
 document.getElementById("title").innerText = `Grade ${cls} - Unit ${unit}`;
 document.getElementById("unitTitle").innerText = `Unit ${unit}`;
 document.getElementById("desc").innerText = arr[unit-1];
-
-const list = document.getElementById("list");
-list.innerHTML="";
-
-arr.forEach((u,i)=>{
-const div=document.createElement("div");
-div.className="item";
-div.innerText="Unit "+(i+1);
-
-div.onclick=()=>{
-window.location.href=`unit.html?class=${cls}&unit=${i+1}`;
-};
-
-list.appendChild(div);
-});
 
 }
 
 function goBack(){
 window.location.href="dashboard.html";
+}
+
+function nextUnit(){
+if(unit < data[cls].length){
+unit++;
+updateURL();
+}
+}
+
+function prevUnit(){
+if(unit > 1){
+unit--;
+updateURL();
+}
+}
+
+function updateURL(){
+window.location.href = `unit.html?class=${cls}&unit=${unit}`;
 }
 
 render();
