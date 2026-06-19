@@ -47,12 +47,17 @@ index.html → entry point
 ---
 
 ## 🚀 Getting Started
+```js
+git clone https://github.com/Mustiskooo/englishwithtunahan
+```
 
-git clone https://github.com/Mustiskooo/englishwithtunahan.git
-
+```js
 cd englishwithtunahan
+```
 
+```js
 Open `index.html`
+```
 
 ---
 
