@@ -4,14 +4,14 @@
   <b>Build by Muffixx (namıdiğer Yazıcı)</b>
 </p>
 
-<p align="center">
+<div align="center">
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
 ![Firebase](https://img.shields.io/badge/firebase-used-orange.svg)
 ![Language](https://img.shields.io/badge/language-html%20%2B%20javascript-yellow.svg)
 
-</p>
+</div>
 
 ---
 
