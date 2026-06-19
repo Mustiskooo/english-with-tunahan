@@ -1,337 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>EnglishWithTunahan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>EnglishWithTunahan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter;
+}
 
-    body {
-      display: flex;
-      height: 100vh;
-      background: #0b0f1a;
-      color: white;
-    }
+body{
+display:flex;
+height:100vh;
+background:#0b0f1a;
+color:white;
+overflow-x:hidden;
+}
 
-    /* SIDEBAR */
-    .sidebar {
-      width: 250px;
-      padding: 20px;
-      background: rgba(255,255,255,0.03);
-      border-right: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+/* SIDEBAR */
+.sidebar{
+width:250px;
+padding:20px;
+background:rgba(255,255,255,0.03);
+border-right:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+transition:.3s;
+}
 
-    .logo {
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+.logo{
+font-weight:700;
+font-size:18px;
+margin-bottom:20px;
+background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
 
-    .class-btn {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 8px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.05);
-      color: white;
-      text-align: left;
-      transition: 0.2s;
-    }
+.class-btn{
+width:100%;
+padding:10px;
+margin-bottom:8px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+background:rgba(255,255,255,0.05);
+color:white;
+text-align:left;
+transition:.2s;
+}
 
-    .class-btn:hover {
-      background: rgba(108,92,231,0.25);
-      transform: translateX(3px);
-    }
+.class-btn:hover{
+background:rgba(108,92,231,0.25);
+transform:translateX(3px);
+}
 
-    .class-btn.active {
-      background: linear-gradient(90deg,#6c5ce7,#00d2ff);
-    }
+.class-btn.active{
+background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+}
 
-    .bottom-menu {
-      margin-top: 20px;
-    }
+.bottom-menu{
+margin-top:20px;
+}
 
-    .bottom-btn {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      background: rgba(255,255,255,0.05);
-      color: white;
-      text-align: left;
-      transition: 0.2s;
-      font-size: 13px;
-    }
+.bottom-btn{
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+background:rgba(255,255,255,0.05);
+color:white;
+text-align:left;
+transition:.2s;
+font-size:13px;
+}
 
-    .bottom-btn:hover {
-      background: rgba(255,255,255,0.12);
-    }
-    /* MENU TOGGLE (for mobile) */
-    .menu-toggle{
-      display:none;
-      position:fixed;
-      top:15px;
-      left:15px;
-      z-index:1000;
+.bottom-btn:hover{
+background:rgba(255,255,255,0.12);
+}
 
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.1);
+/* MENU */
+.menu-toggle{
+display:none;
+position:fixed;
+top:15px;
+left:15px;
+z-index:1000;
 
-      color:white;
-      padding:10px 14px;
-      border-radius:12px;
-      cursor:pointer;
-      backdrop-filter:blur(12px);
-                }
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.1);
 
-    /* MAIN */
-    .main {
-      flex: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
+color:white;
+padding:10px 14px;
+border-radius:12px;
+cursor:pointer;
+backdrop-filter:blur(12px);
+}
 
-    .title {
-      font-size: 26px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
+/* MAIN */
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
 
-    .subtitle {
-      font-size: 13px;
-      opacity: 0.6;
-      margin-bottom: 25px;
-    }
+.title{
+font-size:26px;
+font-weight:700;
+margin-bottom:5px;
+}
 
-    /* GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
+.subtitle{
+font-size:13px;
+opacity:0.6;
+margin-bottom:25px;
+}
 
-    .card {
-      padding: 18px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      cursor: pointer;
-      transition: 0.25s;
-      backdrop-filter: blur(10px);
-    }
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+}
 
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(0,210,255,0.4);
-    }
+.card{
+padding:18px;
+border-radius:16px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.08);
+cursor:pointer;
+transition:.25s;
+backdrop-filter:blur(10px);
+}
 
-    .card h3 {
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
+.card:hover{
+transform:translateY(-6px);
+border-color:rgba(0,210,255,0.4);
+}
 
-    .card p {
-      font-size: 12px;
-      opacity: 0.6;
-      line-height: 1.4;
-    }
+.card h3{
+font-size:16px;
+margin-bottom:6px;
+}
 
-    @media (max-width: 768px) {
-      .sidebar {
-        position: fixed;
-        left: -250px;
-        top: 0;
-        height: 100%;
-        transition: 0.3s;
-        z-index: 999;
-      }
+.card p{
+font-size:12px;
+opacity:0.6;
+line-height:1.4;
+}
 
-      .sidebar.active {
-        left: 0;
-      }
+/* MOBILE */
+@media(max-width:768px){
+.sidebar{
+position:fixed;
+left:-250px;
+top:0;
+height:100%;
+z-index:999;
+}
 
-      .menu-toggle {
-        display: block;
-      }
+.sidebar.active{
+left:0;
+}
 
-      main {
-        padding-top: 7px;
-        width: 100%;
-      }
-    }
+.menu-toggle{
+display:block;
+}
 
-  </style>
+.main{
+padding:15px;
+width:100%;
+padding-top:70px;
+}
+}
+</style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
+<!-- MENU BUTTON -->
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
-    <div>
-      <div class="logo">EnglishWithTunahan</div>
+<!-- SIDEBAR -->
+<div class="sidebar">
 
-      <button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
-      <button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
-      <button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
-      <button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
-    </div>
+<div>
+<div class="logo">EnglishWithTunahan</div>
 
-    <div class="bottom-menu">
-      <a href="user.html">
-        <button class="bottom-btn">👤 Profile</button>
-      </a>
-      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
-        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
-      </a>
-      <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
-    </div>
+<button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
+<button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
+<button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
+<button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
+</div>
 
-  </div>
-      <button class="menu-toggle" onclick="toggleMenu()">
-        ☰
-      </button>
-  <!-- MAIN -->
-  <div class="main">
+<div class="bottom-menu">
+<button class="bottom-btn" onclick="location.href='user.html'">👤 Profile</button>
+<button class="bottom-btn" onclick="window.open('https://quizlet.com/user/ttkomTUNAHAN/')">📚 Quizlet</button>
+<button class="bottom-btn" onclick="logout()">🚪 Logout</button>
+</div>
 
-    <div class="title" id="title">Grade 5</div>
-    <div class="subtitle">Select a unit to view English materials</div>
+</div>
 
-    <div class="grid" id="grid"></div>
+<!-- MAIN -->
+<div class="main">
 
-  </div>
+<div class="title" id="title">Grade 5</div>
+<div class="subtitle">Select a unit to continue</div>
 
-  <script>
+<div class="grid" id="grid"></div>
+
+</div>
+
+<script>
 let currentClass = 5;
 
 const data = {
-  5: {
-    units: [
-      "Hello – Greeting people and introducing yourself.",
-      "My Town – Talking about places in a city and asking where things are.",
-      "Games and Hobbies – Talking about free-time activities and likes/dislikes.",
-      "My Daily Routine – Describing daily activities and routines.",
-      "Health – Talking about health problems and giving simple advice",
-      "Movies – Talking about movie types and preferences.",
-      "Party Time – Planning parties and inviting people.",
-      "Fitness – Talking about sports, exercise, and healthy life.",
-      "Animal Shelter – Talking about animals and protecting them.",
-      "Festivals – Talking about celebrations around the world."
-    ]
-  },
-
-  6: {
-    units: [
-      "Life – Talking about daily life and habits.",
-      "Yummy Breakfast – Talking about food and breakfast items.",
-      "Downtown – Talking about city centers and giving directions.",
-      "Weather and Emotions – Describing weather and feelings.",
-      "At the Fair – Talking about fun activities at fairs.",
-      "Occupations – Talking about jobs and professions.",
-      "Holidays – Talking about holiday plans and activities.",
-      "Bookworms – Talking about books and reading habits.",
-      "Saving the Planet – Talking about environment and recycling.",
-      "Democracy – Talking about rules, voting, and democracy."
-    ]
-  },
-
-  7: {
-    units: [
-      "Appearance and Personality – Describing people’s looks and character.",
-      "Sports – Talking about different sports and activities.",
-      "Biographies – Talking about famous people’s life stories.",
-      "Wild Animals – Talking about wild animals and their habitats.",
-      "Television – Talking about TV programs and watching habits.",
-      "Celebrations – Talking about special days and festivals.",
-      "Dreams – Talking about future plans and wishes.",
-      "Public Buildings – Talking about places like hospitals and banks.",
-      "Environment – Talking about environmental problems and solutions.",
-      "Planets – Talking about planets and space."
-    ]
-  },
-
-  8: {
-    units: [
-      "Friendship – Talking about friendships and communication.",
-      "Teen Life – Talking about teenagers’ daily life and problems.",
-      "In the Kitchen – Talking about cooking and recipes.",
-      "On the Phone – Making phone conversations.",
-      "The Internet – Talking about internet use and safety.",
-      "Adventures – Talking about exciting experiences and stories.",
-      "Tourism – Talking about travel and visiting places.",
-      "Chores – Talking about household responsibilities.",
-      "Science – Talking about scientific topics and experiments.",
-      "Natural Forces – Talking about natural disasters and forces of nature."
-    ]
-  }
+5:{units:[
+"Hello – Greetings",
+"My Town – Places",
+"Games and Hobbies",
+"My Daily Routine",
+"Health",
+"Movies",
+"Party Time",
+"Fitness",
+"Animal Shelter",
+"Festivals"
+]},
+6:{units:[
+"Life","Breakfast","Downtown","Weather","Fair",
+"Occupations","Holidays","Books","Planet","Democracy"
+]},
+7:{units:[
+"Appearance","Sports","Biographies","Animals","TV",
+"Celebrations","Dreams","Buildings","Environment","Planets"
+]},
+8:{units:[
+"Friendship","Teen Life","Kitchen","Phone","Internet",
+"Adventures","Tourism","Chores","Science","Nature"
+]}
 };
 
-function setActiveClass(c) {
-  document.querySelectorAll(".class-btn").forEach(btn => {
-    btn.classList.remove("active");
-    if (btn.getAttribute("data-class") == c) {
-      btn.classList.add("active");
-    }
-  });
+function setActiveClass(c){
+document.querySelectorAll(".class-btn").forEach(b=>{
+b.classList.remove("active");
+if(b.dataset.class==c) b.classList.add("active");
+});
 }
 
-function loadClass(c) {
-  currentClass = c;
+function loadClass(c){
+currentClass=c;
+document.getElementById("title").innerText="Grade "+c;
 
-  document.getElementById("title").innerText = "Grade " + c;
+setActiveClass(c);
 
-  setActiveClass(c);
+const grid=document.getElementById("grid");
+grid.innerHTML="";
 
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
-
-  data[c].units.forEach((desc, i) => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <h3>Unit ${i + 1}</h3>
-      <p>${desc}</p>
-    `;
-
-    card.onclick = () => {
-      window.location.href = `unit.html?class=${c}&unit=${i + 1}`;
-    };
-
-    grid.appendChild(card);
-  });
+data[c].units.forEach((u,i)=>{
+const div=document.createElement("div");
+div.className="card";
+div.innerHTML=`<h3>Unit ${i+1}</h3><p>${u}</p>`;
+div.onclick=()=>{
+location.href=`unit.html?class=${c}&unit=${i+1}`;
+};
+grid.appendChild(div);
+});
 }
 
-function logout() {
-  window.location.href = "index.html";
+function toggleMenu(){
+document.querySelector(".sidebar").classList.toggle("active");
 }
 
-function toggleMenu() {
-  document.querySelector(".sidebar").classList.toggle("active");
+function logout(){
+location.href="index.html";
 }
 
 loadClass(5);
-  </script>
+</script>
 
 </body>
 </html>
