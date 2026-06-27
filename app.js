@@ -9,9 +9,6 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/* =========================
-   FIREBASE CONFIG
-========================= */
 const firebaseConfig = {
   apiKey: "AIzaSyD52vq0pHWiWP3CxFZB8TpzlwcTDStDM6M",
   authDomain: "englishwithtunahan.firebaseapp.com",
@@ -23,79 +20,53 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-/* =========================
-   LOGIN BUTTON
-========================= */
-const googleBtn = document.getElementById("google-login");
+/* LOGIN */
+export async function loginGoogle(){
+  await setPersistence(auth, browserLocalPersistence);
 
-if (googleBtn) {
-  googleBtn.onclick = async () => {
-    try {
-      await setPersistence(auth, browserLocalPersistence);
+  const result = await signInWithPopup(auth, provider);
+  const user = result.user;
 
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+  localStorage.setItem("user", JSON.stringify({
+    name: user.displayName || "",
+    email: user.email || "",
+    photo: user.photoURL || ""
+  }));
 
-      localStorage.setItem("user", JSON.stringify({
-        name: user.displayName || "",
-        email: user.email || "",
-        photo: user.photoURL || ""
-      }));
-
-      window.location.href = "dashboard.html";
-
-    } catch (err) {
-      console.log("Login error:", err);
-    }
-  };
+  window.location.href = "dashboard.html";
 }
 
-/* =========================
-   GUEST LOGIN
-========================= */
-const guestBtn = document.getElementById("guest-login");
-
-if (guestBtn) {
-  guestBtn.onclick = () => {
-    localStorage.setItem("guest", "true");
-    window.location.href = "dashboard.html";
-  };
+/* GUEST */
+export function guestLogin(){
+  localStorage.setItem("guest", "true");
+  window.location.href = "dashboard.html";
 }
 
-/* =========================
-   AUTH GUARD (CRITICAL FIX)
-========================= */
-export function protectPage() {
-  onAuthStateChanged(auth, (user) => {
+/* AUTH GUARD */
+export function protectPage(){
+  onAuthStateChanged(auth, (user)=>{
     const guest = localStorage.getItem("guest");
 
-    if (!user && !guest) {
+    if(!user && !guest){
       window.location.href = "index.html";
     }
   });
 }
 
-/* =========================
-   ADMIN CHECK
-========================= */
-export function isAdmin(user) {
-  return user?.email === "seninmail@gmail.com"; // değiştir
-}
-
-/* =========================
-   GET USER
-========================= */
-export function getUser() {
+/* USER */
+export function getUser(){
   return JSON.parse(localStorage.getItem("user"));
 }
 
-/* =========================
-   LOGOUT
-========================= */
-export function logout() {
-  signOut(auth).then(() => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("guest");
-    window.location.href = "index.html";
-  });
+/* ADMIN */
+export function isAdmin(user){
+  return user?.email === "seninmail@gmail.com";
+}
+
+/* LOGOUT */
+export function logout(){
+  signOut(auth);
+  localStorage.removeItem("user");
+  localStorage.removeItem("guest");
+  window.location.href = "index.html";
 }
