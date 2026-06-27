@@ -395,6 +395,156 @@ if(user){
 
 loadClass(5);
 
+</script><script type="module">
+import { protectPage, getUser, isAdmin, logout } from "./app.js";
+
+protectPage();
+
+let currentClass = 5;
+const user = getUser();
+
+/* =========================
+   DATA
+========================= */
+const data = {
+  5: {
+    units: [
+      "Hello – Greeting people and introducing yourself.",
+      "My Town – Talking about places in a city and asking where things are.",
+      "Games and Hobbies – Talking about free-time activities and likes/dislikes.",
+      "My Daily Routine – Describing daily activities and routines.",
+      "Health – Talking about health problems and giving simple advice",
+      "Movies – Talking about movie types and preferences.",
+      "Party Time – Planning parties and inviting people.",
+      "Fitness – Talking about sports, exercise, and healthy life.",
+      "Animal Shelter – Talking about animals and protecting them.",
+      "Festivals – Talking about celebrations around the world."
+    ]
+  },
+
+  6: {
+    units: [
+      "Life – Talking about daily life and habits.",
+      "Yummy Breakfast – Talking about food and breakfast items.",
+      "Downtown – Talking about city centers and giving directions.",
+      "Weather and Emotions – Describing weather and feelings.",
+      "At the Fair – Talking about fun activities at fairs.",
+      "Occupations – Talking about jobs and professions.",
+      "Holidays – Talking about holiday plans and activities.",
+      "Bookworms – Talking about books and reading habits.",
+      "Saving the Planet – Talking about environment and recycling.",
+      "Democracy – Talking about rules, voting, and democracy."
+    ]
+  },
+
+  7: {
+    units: [
+      "Appearance and Personality – Describing people’s looks and character.",
+      "Sports – Talking about different sports and activities.",
+      "Biographies – Talking about famous people’s life stories.",
+      "Wild Animals – Talking about wild animals and their habitats.",
+      "Television – Talking about TV programs and watching habits.",
+      "Celebrations – Talking about special days and festivals.",
+      "Dreams – Talking about future plans and wishes.",
+      "Public Buildings – Talking about places like hospitals and banks.",
+      "Environment – Talking about environmental problems and solutions.",
+      "Planets – Talking about planets and space."
+    ]
+  },
+
+  8: {
+    units: [
+      "Friendship – Talking about friendships and communication.",
+      "Teen Life – Talking about teenagers’ daily life and problems.",
+      "In the Kitchen – Talking about cooking and recipes.",
+      "On the Phone – Making phone conversations.",
+      "The Internet – Talking about internet use and safety.",
+      "Adventures – Talking about exciting experiences and stories.",
+      "Tourism – Talking about travel and visiting places.",
+      "Chores – Talking about household responsibilities.",
+      "Science – Talking about scientific topics and experiments.",
+      "Natural Forces – Talking about natural disasters and forces of nature."
+    ]
+  }
+};
+
+/* =========================
+   UI HELPERS
+========================= */
+function setActiveClass(c){
+  document.querySelectorAll(".class-btn").forEach(btn=>{
+    btn.classList.remove("active");
+    if(Number(btn.dataset.class) === Number(c)){
+      btn.classList.add("active");
+    }
+  });
+}
+
+/* =========================
+   LOAD CLASS
+========================= */
+function loadClass(c){
+  currentClass = c;
+  document.getElementById("title").innerText = "Grade " + c;
+
+  setActiveClass(c);
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  data[c].units.forEach((desc, i)=>{
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <h3>Unit ${i+1}</h3>
+      <p>${desc}</p>
+    `;
+
+    div.onclick = () => {
+      location.href = `unit.html?class=${c}&unit=${i+1}`;
+    };
+
+    grid.appendChild(div);
+  });
+}
+
+/* =========================
+   MOBILE MENU
+========================= */
+function toggleMenu(){
+  document.querySelector(".sidebar").classList.toggle("active");
+}
+
+/* =========================
+   USER UI
+========================= */
+if(user){
+  document.getElementById("userName").innerText = user.name || "Guest";
+  document.getElementById("userEmail").innerText = user.email || "";
+
+  if(user.photo){
+    document.getElementById("userPhoto").src = user.photo;
+  }
+}
+
+/* =========================
+   ADMIN
+========================= */
+if(isAdmin(user)){
+  document.getElementById("adminBadge").style.display = "block";
+}
+
+/* =========================
+   GLOBALS
+========================= */
+window.loadClass = loadClass;
+window.toggleMenu = toggleMenu;
+window.logout = logout;
+
+/* INIT */
+loadClass(5);
+
 </script>
 
 </body>
