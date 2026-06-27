@@ -4,10 +4,14 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   setPersistence,
-  browserLocalPersistence
+  browserLocalPersistence,
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// Firebase config
+/* =========================
+   FIREBASE CONFIG
+========================= */
 const firebaseConfig = {
   apiKey: "AIzaSyD52vq0pHWiWP3CxFZB8TpzlwcTDStDM6M",
   authDomain: "englishwithtunahan.firebaseapp.com",
@@ -15,13 +19,12 @@ const firebaseConfig = {
   appId: "1:204561726917:web:2312ea68afce1c529d5fac"
 };
 
-// Init
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 /* =========================
-   GOOGLE LOGIN (PERSISTENT)
+   LOGIN BUTTON
 ========================= */
 const googleBtn = document.getElementById("google-login");
 
@@ -33,7 +36,6 @@ if (googleBtn) {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // save user locally
       localStorage.setItem("user", JSON.stringify({
         name: user.displayName || "",
         email: user.email || "",
@@ -43,7 +45,7 @@ if (googleBtn) {
       window.location.href = "dashboard.html";
 
     } catch (err) {
-      console.error("Login error:", err);
+      console.log("Login error:", err);
     }
   };
 }
@@ -61,17 +63,37 @@ if (guestBtn) {
 }
 
 /* =========================
-   OPTIONAL: GET USER
+   AUTH GUARD (CRITICAL FIX)
+========================= */
+export function protectPage() {
+  onAuthStateChanged(auth, (user) => {
+    const guest = localStorage.getItem("guest");
+
+    if (!user && !guest) {
+      window.location.href = "index.html";
+    }
+  });
+}
+
+/* =========================
+   ADMIN CHECK
+========================= */
+export function isAdmin(user) {
+  return user?.email === "seninmail@gmail.com"; // değiştir
+}
+
+/* =========================
+   GET USER
 ========================= */
 export function getUser() {
   return JSON.parse(localStorage.getItem("user"));
 }
 
 /* =========================
-   LOGOUT (USE ANYWHERE)
+   LOGOUT
 ========================= */
 export function logout() {
-  auth.signOut().then(() => {
+  signOut(auth).then(() => {
     localStorage.removeItem("user");
     localStorage.removeItem("guest");
     window.location.href = "index.html";
