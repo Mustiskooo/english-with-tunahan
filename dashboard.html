@@ -215,7 +215,11 @@ padding-top:70px;
 
 </div>
 
-<script>
+<script type="module">
+import { protectPage, getUser, isAdmin } from "./app.js";
+
+protectPage();
+const user = getUser();
 
 let currentClass = 5;
 
