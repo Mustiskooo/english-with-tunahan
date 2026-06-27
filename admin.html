@@ -1,1 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin, EnglishWithTunahan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter;
+}
+
+body{
+display:flex;
+height:100vh;
+background:#0b0f1a;
+color:white;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:240px;
+background:rgba(255,255,255,0.03);
+border-right:1px solid rgba(255,255,255,0.08);
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.logo{
+font-weight:700;
+font-size:18px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.nav{
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+background:rgba(255,255,255,0.04);
+transition:.2s;
+}
+
+.nav:hover{
+background:rgba(108,92,231,0.2);
+}
+
+.nav.active{
+background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+}
+
+/* MAIN */
+.main{
+flex:1;
+padding:25px;
+overflow:auto;
+}
+
+.section{
+display:none;
+}
+
+.section.active{
+display:block;
+}
+
+/* CARD */
+.card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.08);
+padding:20px;
+border-radius:14px;
+margin-top:15px;
+}
+
+.dropzone{
+border:2px dashed #6c5ce7;
+padding:50px;
+text-align:center;
+border-radius:14px;
+cursor:pointer;
+transition:.2s;
+}
+
+.dropzone:hover{
+background:rgba(108,92,231,0.1);
+}
+
+input,select,button{
+margin-top:10px;
+padding:10px;
+border-radius:8px;
+border:none;
+outline:none;
+}
+
+button{
+background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+color:white;
+cursor:pointer;
+}
+
+.file{
+display:flex;
+justify-content:space-between;
+padding:10px;
+background:rgba(255,255,255,0.05);
+border-radius:10px;
+margin-top:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="logo">Admin Panel</div>
+
+  <div class="nav active" onclick="show('dashboard')">📊 Dashboard</div>
+  <div class="nav" onclick="show('upload')">📤 Upload</div>
+  <div class="nav" onclick="show('units')">📚 Units</div>
+  <div class="nav" onclick="show('users')">👥 Users</div>
+  <div class="nav" onclick="logout()">🚪 Logout</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="section active">
+  <h1>Welcome Admin</h1>
+  <div class="card">
+    📚 Total Units: 40<br>
+    👥 Users: 128<br>
+    📄 Files: 22
+  </div>
+</div>
+
+<!-- UPLOAD -->
+<div id="upload" class="section">
+  <h1>Upload PDF</h1>
+
+  <div class="card">
+    <div class="dropzone">
+      ☁️ Drag & Drop PDF here
+    </div>
+
+    <select>
+      <option>Grade 5</option>
+      <option>Grade 6</option>
+      <option>Grade 7</option>
+      <option>Grade 8</option>
+    </select>
+
+    <select>
+      <option>Unit 1</option>
+      <option>Unit 2</option>
+      <option>Unit 3</option>
+    </select>
+
+    <button>Upload</button>
+  </div>
+</div>
+
+<!-- UNITS -->
+<div id="units" class="section">
+  <h1>Units</h1>
+
+  <div class="card">
+    Unit 1 - Greetings
+  </div>
+  <div class="card">
+    Unit 2 - Daily Life
+  </div>
+</div>
+
+<!-- USERS -->
+<div id="users" class="section">
+  <h1>Users</h1>
+
+  <div class="card">
+    Tunahan - admin
+  </div>
+  <div class="card">
+    student123 - user
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll(".section").forEach(s=>{
+    s.classList.remove("active");
+  });
+
+  document.querySelectorAll(".nav").forEach(n=>{
+    n.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+  event.target.classList.add("active");
+}
+
+function logout(){
+  location.href="index.html";
+}
+</script>
+
+</body>
+</html>
