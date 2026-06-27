@@ -157,6 +157,54 @@ opacity:0.6;
 line-height:1.4;
 }
 
+  .topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+padding:12px 15px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:12px;
+backdrop-filter:blur(10px);
+}
+
+.userbox{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.avatar{
+width:38px;
+height:38px;
+border-radius:50%;
+background:#333;
+object-fit:cover;
+}
+
+.rightbox{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.badge{
+padding:4px 10px;
+border-radius:8px;
+background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+font-size:12px;
+}
+
+.logout{
+padding:6px 10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:rgba(255,255,255,0.05);
+color:white;
+}
+
 /* MOBILE */
 @media(max-width:768px){
 .sidebar{
@@ -331,6 +379,22 @@ document.querySelector(".sidebar").classList.toggle("active");
 
 function logout(){
 location.href="index.html";
+  
+}
+
+  const user = getUser();
+
+if(user){
+  document.getElementById("userName").innerText = user.name || "Guest";
+  document.getElementById("userEmail").innerText = user.email || "";
+
+  if(user.photo){
+    document.getElementById("userPhoto").src = user.photo;
+  }
+}
+  
+  if(isAdmin(user)){
+  document.getElementById("adminBadge").style.display = "block";
 }
 
 loadClass(5);
