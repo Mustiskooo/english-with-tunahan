@@ -2,220 +2,156 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Admin, EnglishWithTunahan</title>
+<title>Admin Panel - EnglishWithTunahan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter;
-}
-
 body{
-display:flex;
-height:100vh;
+margin:0;
+font-family:Inter;
 background:#0b0f1a;
 color:white;
 }
 
-/* SIDEBAR */
-.sidebar{
-width:240px;
-background:rgba(255,255,255,0.03);
-border-right:1px solid rgba(255,255,255,0.08);
-padding:20px;
+.top{
+padding:15px 20px;
+background:rgba(255,255,255,.03);
+border-bottom:1px solid rgba(255,255,255,.08);
 display:flex;
-flex-direction:column;
-gap:10px;
+justify-content:space-between;
 }
 
-.logo{
-font-weight:700;
-font-size:18px;
-margin-bottom:10px;
-background:linear-gradient(90deg,#6c5ce7,#00d2ff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.nav{
-padding:10px;
-border-radius:10px;
-cursor:pointer;
-background:rgba(255,255,255,0.04);
-transition:.2s;
-}
-
-.nav:hover{
-background:rgba(108,92,231,0.2);
-}
-
-.nav.active{
-background:linear-gradient(90deg,#6c5ce7,#00d2ff);
-}
-
-/* MAIN */
-.main{
-flex:1;
-padding:25px;
-overflow:auto;
-}
-
-.section{
-display:none;
-}
-
-.section.active{
-display:block;
-}
-
-/* CARD */
-.card{
-background:rgba(255,255,255,0.04);
-border:1px solid rgba(255,255,255,0.08);
+.container{
+max-width:900px;
+margin:auto;
 padding:20px;
-border-radius:14px;
-margin-top:15px;
 }
 
-.dropzone{
-border:2px dashed #6c5ce7;
-padding:50px;
-text-align:center;
-border-radius:14px;
-cursor:pointer;
-transition:.2s;
+.card{
+background:rgba(255,255,255,.03);
+border:1px solid rgba(255,255,255,.08);
+padding:20px;
+border-radius:16px;
+margin-bottom:20px;
 }
 
-.dropzone:hover{
-background:rgba(108,92,231,0.1);
-}
-
-input,select,button{
-margin-top:10px;
+input, select{
+width:100%;
 padding:10px;
-border-radius:8px;
+margin-top:10px;
+border-radius:10px;
 border:none;
 outline:none;
 }
 
 button{
-background:linear-gradient(90deg,#6c5ce7,#00d2ff);
-color:white;
-cursor:pointer;
-}
-
-.file{
-display:flex;
-justify-content:space-between;
-padding:10px;
-background:rgba(255,255,255,0.05);
-border-radius:10px;
 margin-top:10px;
+padding:10px 14px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#6c5ce7;
+color:white;
 }
 
+button:hover{
+opacity:0.9;
+}
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <div class="logo">Admin Panel</div>
-
-  <div class="nav active" onclick="show('dashboard')">📊 Dashboard</div>
-  <div class="nav" onclick="show('upload')">📤 Upload</div>
-  <div class="nav" onclick="show('units')">📚 Units</div>
-  <div class="nav" onclick="show('users')">👥 Users</div>
-  <div class="nav" onclick="logout()">🚪 Logout</div>
+<div class="top">
+<div>🛠 Admin Panel v1.0</div>
+<div><button onclick="location.href='dashboard.html'">Dashboard</button></div>
 </div>
 
-<!-- MAIN -->
-<div class="main">
+<div class="container">
 
-<!-- DASHBOARD -->
-<div id="dashboard" class="section active">
-  <h1>Welcome Admin</h1>
-  <div class="card">
-    📚 Total Units: 40<br>
-    👥 Users: 128<br>
-    📄 Files: 22
-  </div>
+<div class="card">
+<h2>📚 Upload PDF</h2>
+
+<select id="grade">
+<option value="5">Grade 5</option>
+<option value="6">Grade 6</option>
+<option value="7">Grade 7</option>
+<option value="8">Grade 8</option>
+</select>
+
+<select id="unit">
+<option value="1">Unit 1</option>
+<option value="2">Unit 2</option>
+<option value="3">Unit 3</option>
+<option value="4">Unit 4</option>
+<option value="5">Unit 5</option>
+<option value="6">Unit 6</option>
+<option value="7">Unit 7</option>
+<option value="8">Unit 8</option>
+<option value="9">Unit 9</option>
+<option value="10">Unit 10</option>
+</select>
+
+<input type="file" id="file" accept="application/pdf">
+
+<button onclick="uploadPDF()">Upload</button>
+
 </div>
 
-<!-- UPLOAD -->
-<div id="upload" class="section">
-  <h1>Upload PDF</h1>
-
-  <div class="card">
-    <div class="dropzone">
-      ☁️ Drag & Drop PDF here
-    </div>
-
-    <select>
-      <option>Grade 5</option>
-      <option>Grade 6</option>
-      <option>Grade 7</option>
-      <option>Grade 8</option>
-    </select>
-
-    <select>
-      <option>Unit 1</option>
-      <option>Unit 2</option>
-      <option>Unit 3</option>
-    </select>
-
-    <button>Upload</button>
-  </div>
-</div>
-
-<!-- UNITS -->
-<div id="units" class="section">
-  <h1>Units</h1>
-
-  <div class="card">
-    Unit 1 - Greetings
-  </div>
-  <div class="card">
-    Unit 2 - Daily Life
-  </div>
-</div>
-
-<!-- USERS -->
-<div id="users" class="section">
-  <h1>Users</h1>
-
-  <div class="card">
-    Tunahan - admin
-  </div>
-  <div class="card">
-    student123 - user
-  </div>
+<div class="card">
+<h2>📦 Status</h2>
+<div id="status">Waiting...</div>
 </div>
 
 </div>
 
-<script>
-function show(id){
-  document.querySelectorAll(".section").forEach(s=>{
-    s.classList.remove("active");
-  });
+<script type="module">
+import { getStorage, ref, uploadBytes, getDownloadURL } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-  document.querySelectorAll(".nav").forEach(n=>{
-    n.classList.remove("active");
-  });
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
-  document.getElementById(id).classList.add("active");
-  event.target.classList.add("active");
+/* Firebase config */
+const firebaseConfig = {
+  apiKey: "AIzaSyD52vq0pHWiWP3CxFZB8TpzlwcTDStDM6M",
+  authDomain: "englishwithtunahan.firebaseapp.com",
+  projectId: "englishwithtunahan",
+  storageBucket: "englishwithtunahan.appspot.com",
+  appId: "1:204561726917:web:2312ea68afce1c529d5fac"
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+window.uploadPDF = async function(){
+
+const file = document.getElementById("file").files[0];
+const grade = document.getElementById("grade").value;
+const unit = document.getElementById("unit").value;
+
+if(!file){
+document.getElementById("status").innerText = "No file selected";
+return;
 }
 
-function logout(){
-  location.href="index.html";
-}
+const path = `pdfs/grade${grade}/unit${unit}.pdf`;
+
+const storageRef = ref(storage, path);
+
+document.getElementById("status").innerText = "Uploading...";
+
+await uploadBytes(storageRef, file);
+
+const url = await getDownloadURL(storageRef);
+
+document.getElementById("status").innerText = "Uploaded: " + url;
+
+console.log(url);
+};
+
 </script>
 
 </body>
