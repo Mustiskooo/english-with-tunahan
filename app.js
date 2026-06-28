@@ -64,9 +64,18 @@ export function isAdmin(user){
 }
 
 /* LOGOUT */
-export function logout(){
-  signOut(auth);
-  localStorage.removeItem("user");
-  localStorage.removeItem("guest");
+export async function logout() {
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.log(e);
+  }
+
+  // Tüm localStorage'ı temizle
+  localStorage.clear();
+
+  // İstersen sessionStorage'ı da temizle
+  sessionStorage.clear();
+
   window.location.href = "index.html";
 }
