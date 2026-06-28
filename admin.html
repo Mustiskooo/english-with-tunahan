@@ -108,13 +108,12 @@ opacity:0.9;
 </div>
 
 <script type="module">
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-
-/* Firebase config */
+/* Firebase */
 const firebaseConfig = {
   apiKey: "AIzaSyD52vq0pHWiWP3CxFZB8TpzlwcTDStDM6M",
   authDomain: "englishwithtunahan.firebaseapp.com",
@@ -126,31 +125,45 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-window.uploadPDF = async function(){
+/* UPLOAD */
+window.uploadPDF = async function () {
 
-const file = document.getElementById("file").files[0];
-const grade = document.getElementById("grade").value;
-const unit = document.getElementById("unit").value;
+  const file = document.getElementById("file").files[0];
+  const grade = document.getElementById("grade").value;
+  const unit = document.getElementById("unit").value;
 
-if(!file){
-document.getElementById("status").innerText = "No file selected";
-return;
-}
+  if (!file) {
+    document.getElementById("status").innerText = "Dosya seçilmedi ❌";
+    return;
+  }
 
-const path = `pdfs/grade${grade}/unit${unit}.pdf`;
+  document.getElementById("status").innerText = "Yükleniyor... ⏳";
 
-const storageRef = ref(storage, path);
+  try {
 
-document.getElementById("status").innerText = "Uploading...";
+    // MULTI PDF SUPPORT (şimdilik 1)
+    const pdfIndex = 1;
 
-await uploadBytes(storageRef, file);
+    const path = `pdfs/grade${grade}/unit${unit}/${pdfIndex}.pdf`;
 
-const url = await getDownloadURL(storageRef);
+    const storageRef = ref(storage, path);
 
-document.getElementById("status").innerText = "Uploaded: " + url;
+    await uploadBytes(storageRef, file);
 
-console.log(url);
+    const url = await getDownloadURL(storageRef);
+
+    document.getElementById("status").innerText =
+      "Yüklendi ✔ " + path;
+
+    console.log("UPLOAD URL:", url);
+
+  } catch (err) {
+    console.log(err);
+    document.getElementById("status").innerText =
+      "Hata oluştu ❌";
+  }
 };
+</script>
 
 </script>
 
