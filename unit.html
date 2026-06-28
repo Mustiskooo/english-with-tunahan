@@ -41,6 +41,7 @@ background:rgba(255,255,255,0.05);
 cursor:pointer;
 transition:.2s;
 }
+
 .back:hover{
 background:rgba(108,92,231,0.25);
 }
@@ -98,6 +99,16 @@ transition:.2s;
 background:rgba(108,92,231,0.25);
 }
 
+/* PDF */
+iframe{
+width:100%;
+height:70vh;
+border:none;
+border-radius:12px;
+background:white;
+margin-top:20px;
+}
+
 /* MOBILE */
 @media(max-width:768px){
 .container{
@@ -116,12 +127,15 @@ font-size:14px;
 </head>
 
 <body>
+
+<!-- TOP -->
 <div class="top">
   <div class="back" onclick="goBack()">← Dashboard</div>
   <div id="title">Unit</div>
   <div></div>
 </div>
 
+<!-- MAIN -->
 <div class="container">
 
   <div class="card">
@@ -134,9 +148,7 @@ font-size:14px;
     </div>
   </div>
 
-  <iframe id="pdfFrame"
-    style="width:100%;height:70vh;border:none;border-radius:12px;background:white;margin-top:20px;">
-  </iframe>
+  <iframe id="pdfFrame"></iframe>
 
   <div id="status" style="opacity:.6;margin-top:10px;"></div>
 
@@ -147,6 +159,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getStorage, ref, getDownloadURL } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
+/* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyD52vq0pHWiWP3CxFZB8TpzlwcTDStDM6M",
   authDomain: "englishwithtunahan.firebaseapp.com",
@@ -171,59 +184,62 @@ const params = new URLSearchParams(location.search);
 const cls = Number(params.get("class")) || 5;
 let unit = Number(params.get("unit")) || 1;
 
-/* SAFE LIMITS */
-function clampUnit(){
+/* CLAMP */
+function clamp(){
   const max = data[cls].length;
   if(unit < 1) unit = 1;
   if(unit > max) unit = max;
 }
 
-/* UI */
-function renderText(){
-  clampUnit();
-
+/* TEXT */
+function render(){
+  clamp();
   document.getElementById("title").innerText = `Grade ${cls} - Unit ${unit}`;
   document.getElementById("unitTitle").innerText = `Unit ${unit}`;
   document.getElementById("desc").innerText = data[cls][unit-1];
 }
 
-/* PDF LOAD */
+/* PDF */
 async function loadPDF(){
-  try {
+  try{
     const path = `pdfs/grade${cls}/unit${unit}.pdf`;
     const pdfRef = ref(storage, path);
     const url = await getDownloadURL(pdfRef);
 
     document.getElementById("pdfFrame").src = url;
     document.getElementById("status").innerText = "PDF Loaded ✔";
-
-  } catch (e) {
-    document.getElementById("status").innerText = "No PDF uploaded yet ❌";
+  }
+  catch(e){
     document.getElementById("pdfFrame").src = "";
+    document.getElementById("status").innerText = "No PDF yet ❌";
   }
 }
 
 /* NAV */
-function updateURL(){
-  window.location.href = `unit.html?class=${cls}&unit=${unit}`;
+function update(){
+  location.href = `unit.html?class=${cls}&unit=${unit}`;
 }
 
 window.nextUnit = function(){
   if(unit < data[cls].length){
     unit++;
-    updateURL();
+    update();
   }
 }
 
 window.prevUnit = function(){
   if(unit > 1){
     unit--;
-    updateURL();
+    update();
   }
 }
 
+window.goBack = function(){
+  location.href = "dashboard.html";
+}
+
 /* INIT */
-renderText();
+render();
 loadPDF();
 </script>
 
