@@ -116,44 +116,29 @@ font-size:14px;
 </head>
 
 <body>
-
-  <div style="padding:20px">
-
-  <h1 id="title"></h1>
-  <h2 id="unitTitle"></h2>
-  <p id="desc"></p>
-
-  <div style="margin:10px 0;">
-    <button onclick="prevUnit()">⬅ Prev</button>
-    <button onclick="nextUnit()">Next ➡</button>
-  </div>
-
-  <iframe id="pdfFrame"
-    style="width:100%;height:70vh;border:none;border-radius:12px;background:white;">
-  </iframe>
-
-  <div id="status" style="opacity:.6;margin-top:10px;"></div>
-
-</div>
-
 <div class="top">
-<div class="back" onclick="goBack()">← Dashboard</div>
-<div id="title">Unit</div>
-<div></div>
+  <div class="back" onclick="goBack()">← Dashboard</div>
+  <div id="title">Unit</div>
+  <div></div>
 </div>
 
 <div class="container">
 
-<div class="card">
-<h2 id="unitTitle"></h2>
-<p id="desc"></p>
+  <div class="card">
+    <h2 id="unitTitle"></h2>
+    <p id="desc"></p>
 
-<div class="nav">
-<button class="btn" onclick="prevUnit()">← Prev</button>
-<button class="btn" onclick="nextUnit()">Next →</button>
-</div>
+    <div class="nav">
+      <button class="btn" onclick="prevUnit()">← Prev</button>
+      <button class="btn" onclick="nextUnit()">Next →</button>
+    </div>
+  </div>
 
-</div>
+  <iframe id="pdfFrame"
+    style="width:100%;height:70vh;border:none;border-radius:12px;background:white;margin-top:20px;">
+  </iframe>
+
+  <div id="status" style="opacity:.6;margin-top:10px;"></div>
 
 </div>
 
