@@ -146,8 +146,23 @@ font-size:14px;
 
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getStorage, ref, getDownloadURL } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyD52vq0pHWiWP3CxFZB8TpzlwcTDStDM6M",
+  authDomain: "englishwithtunahan.firebaseapp.com",
+  projectId: "englishwithtunahan",
+  storageBucket: "englishwithtunahan.appspot.com",
+  appId: "1:204561726917:web:2312ea68afce1c529d5fac"
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+/* DATA */
 const data = {
 5:["Greetings","My Town","Games and Hobbies","My Daily Routine","Health","Movies","Party Time","Fitness","Animal Shelter","Festivals"],
 6:["Life","Yummy Breakfast","Downtown","Weather and Emotions","At the Fair","Occupations","Holidays","Bookworms","Saving the Planet","Democracy"],
@@ -155,47 +170,65 @@ const data = {
 8:["Friendship","Teen Life","In the Kitchen","On the Phone","The Internet","Adventures","Tourism","Chores","Science","Natural Forces"]
 };
 
+/* PARAMS */
 const params = new URLSearchParams(location.search);
 const cls = Number(params.get("class")) || 5;
 let unit = Number(params.get("unit")) || 1;
 
-function render(){
-
-const arr = data[cls];
-
-if(unit < 1) unit = 1;
-if(unit > arr.length) unit = arr.length;
-
-document.getElementById("title").innerText = `Grade ${cls} - Unit ${unit}`;
-document.getElementById("unitTitle").innerText = `Unit ${unit}`;
-document.getElementById("desc").innerText = arr[unit-1];
-
+/* SAFE LIMITS */
+function clampUnit(){
+  const max = data[cls].length;
+  if(unit < 1) unit = 1;
+  if(unit > max) unit = max;
 }
 
-function goBack(){
-window.location.href="dashboard.html";
+/* UI */
+function renderText(){
+  clampUnit();
+
+  document.getElementById("title").innerText = `Grade ${cls} - Unit ${unit}`;
+  document.getElementById("unitTitle").innerText = `Unit ${unit}`;
+  document.getElementById("desc").innerText = data[cls][unit-1];
 }
 
-function nextUnit(){
-if(unit < data[cls].length){
-unit++;
-updateURL();
-}
+/* PDF LOAD */
+async function loadPDF(){
+  try {
+    const path = `pdfs/grade${cls}/unit${unit}.pdf`;
+    const pdfRef = ref(storage, path);
+    const url = await getDownloadURL(pdfRef);
+
+    document.getElementById("pdfFrame").src = url;
+    document.getElementById("status").innerText = "PDF Loaded ✔";
+
+  } catch (e) {
+    document.getElementById("status").innerText = "No PDF uploaded yet ❌";
+    document.getElementById("pdfFrame").src = "";
+  }
 }
 
-function prevUnit(){
-if(unit > 1){
-unit--;
-updateURL();
-}
-}
-
+/* NAV */
 function updateURL(){
-window.location.href = `unit.html?class=${cls}&unit=${unit}`;
+  window.location.href = `unit.html?class=${cls}&unit=${unit}`;
 }
 
-render();
+window.nextUnit = function(){
+  if(unit < data[cls].length){
+    unit++;
+    updateURL();
+  }
+}
 
+window.prevUnit = function(){
+  if(unit > 1){
+    unit--;
+    updateURL();
+  }
+}
+
+/* INIT */
+renderText();
+loadPDF();
 </script>
 
 </body>
