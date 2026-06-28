@@ -20,8 +20,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-/* LOGIN */
-export async function loginGoogle(){
+/* login */
+export async function loginGoogle() {
   await setPersistence(auth, browserLocalPersistence);
 
   const result = await signInWithPopup(auth, provider);
@@ -36,34 +36,45 @@ export async function loginGoogle(){
   window.location.href = "dashboard.html";
 }
 
-/* GUEST */
-export function guestLogin(){
+/* guest */
+export function guestLogin() {
   localStorage.setItem("guest", "true");
   window.location.href = "dashboard.html";
 }
 
-/* AUTH GUARD */
-export function protectPage(){
-  onAuthStateChanged(auth, (user)=>{
+/* button events (guestlogin, googlelogin etc. ) */
+const googleBtn = document.getElementById("google-login");
+if (googleBtn) {
+  googleBtn.addEventListener("click", loginGoogle);
+}
+
+const guestBtn = document.getElementById("guest-login");
+if (guestBtn) {
+  guestBtn.addEventListener("click", guestLogin);
+}
+
+/*auth guard*/
+export function protectPage() {
+  onAuthStateChanged(auth, (user) => {
     const guest = localStorage.getItem("guest");
 
-    if(!user && !guest){
+    if (!user && !guest) {
       window.location.href = "index.html";
     }
   });
 }
 
-/* USER */
-export function getUser(){
+/*user things*/
+export function getUser() {
   return JSON.parse(localStorage.getItem("user"));
 }
 
-/* ADMIN */
-export function isAdmin(user){
-  return user?.email === "seninmail@gmail.com";
+/* admin stuff */
+export function isAdmin(user) {
+  return user?.email === "yazicimustafayazici05@gmail.com"; // change with your (admin's) e-mail
 }
 
-/* LOGOUT */
+/* logout */
 export async function logout() {
   try {
     await signOut(auth);
@@ -71,10 +82,7 @@ export async function logout() {
     console.log(e);
   }
 
-  // Tüm localStorage'ı temizle
   localStorage.clear();
-
-  // İstersen sessionStorage'ı da temizle
   sessionStorage.clear();
 
   window.location.href = "index.html";
