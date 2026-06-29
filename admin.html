@@ -172,7 +172,6 @@ dropzone.addEventListener("drop", (e) => {
   selectedFiles = [...e.dataTransfer.files];
   status.innerText = `${selectedFiles.length} file dropped`;
 });
-
 window.uploadPDF = async function () {
 
   if (!selectedFiles.length) {
@@ -191,18 +190,24 @@ window.uploadPDF = async function () {
 
   for (let file of selectedFiles) {
 
+    // 🔥 path BURADA TANIMLANIYOR
     const path = `${folder}/${Date.now()}-${file.name}`;
 
     const { error } = await supabase.storage
       .from("pdfs")
       .upload(path, file, { upsert: true });
 
-    if (!error) ok++;
-    else console.log(error);
+    if (error) {
+      console.log("UPLOAD ERROR:", error);
+    } else {
+      ok++;
+    }
   }
 
   status.innerText =
     `Upload done ✔\nSuccess: ${ok}/${selectedFiles.length}`;
+
+  selectedFiles = [];
 };
 </script>
 
