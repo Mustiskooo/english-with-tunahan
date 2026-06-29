@@ -190,8 +190,8 @@ window.uploadPDF = async function () {
 
   for (let file of selectedFiles) {
 
-    // 🔥 path BURADA TANIMLANIYOR
-    const path = `${folder}/${Date.now()}-${file.name}`;
+    // bi bozul nasıl ratlıyorum supabasenin websitesini
+    const path = `${folder}/${crypto.randomUUID()}-${file.name}`;
 
     const { error } = await supabase.storage
       .from("pdfs")
