@@ -136,6 +136,12 @@ button:hover{
 </div>
 
 <script type="module">
+  const { data, error } = await supabase.storage
+  .from("pdfs")
+  .upload(path, file);
+
+console.log("DATA:", data);
+console.log("ERROR:", error);
   console.log("SUPABASE TEST START");
 
 const { data, error } = await supabase.storage.listBuckets();
