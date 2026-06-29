@@ -136,6 +136,12 @@ button:hover{
 </div>
 
 <script type="module">
+  console.log("SUPABASE TEST START");
+
+const { data, error } = await supabase.storage.listBuckets();
+
+console.log("DATA:", data);
+console.log("ERROR:", error);
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 /* =========================
