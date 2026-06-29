@@ -136,43 +136,19 @@ button:hover{
 </div>
 
 <script type="module">
-  const { data, error } = await supabase.storage
-  .from("pdfs")
-  .upload(path, file);
-
-console.log("DATA:", data);
-console.log("ERROR:", error);
-  console.log("SUPABASE TEST START");
-
-const { data, error } = await supabase.storage.listBuckets();
-
-console.log("DATA:", data);
-console.log("ERROR:", error);
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-/* =========================
-   SUPABASE
-========================= */
 const supabase = createClient(
   "https://ygrapjawsfjavggttiqw.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlncmFwamF3c2ZqYXZnZ3R0aXF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDg3MDksImV4cCI6MjA5ODIyNDcwOX0.Y-vK8xQRz3nkVreGr-XgiIwiNeN7pWPAXlSP5RUKoZo"
+  "YOUR_ANON_KEY"
 );
 
-/* =========================
-   FILE STATE
-========================= */
 let selectedFiles = [];
 
-/* =========================
-   ELEMENTS
-========================= */
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("file");
 const status = document.getElementById("status");
 
-/* =========================
-   CLICK TO OPEN FILE
-========================= */
 dropzone.onclick = () => fileInput.click();
 
 fileInput.onchange = (e) => {
@@ -180,9 +156,6 @@ fileInput.onchange = (e) => {
   status.innerText = `${selectedFiles.length} file selected`;
 };
 
-/* =========================
-   DRAG & DROP
-========================= */
 dropzone.addEventListener("dragover", (e) => {
   e.preventDefault();
   dropzone.classList.add("dragover");
@@ -200,9 +173,6 @@ dropzone.addEventListener("drop", (e) => {
   status.innerText = `${selectedFiles.length} file dropped`;
 });
 
-/* =========================
-   UPLOAD
-========================= */
 window.uploadPDF = async function () {
 
   if (!selectedFiles.length) {
@@ -213,7 +183,7 @@ window.uploadPDF = async function () {
   const grade = document.getElementById("grade").value;
   const unit = document.getElementById("unit").value;
 
-  const folder = `pdfs/grade${grade}/unit${unit}`;
+  const folder = `grade${grade}/unit${unit}`;
 
   status.innerText = "Uploading... ⏳";
 
@@ -228,12 +198,11 @@ window.uploadPDF = async function () {
       .upload(path, file, { upsert: true });
 
     if (!error) ok++;
+    else console.log(error);
   }
 
   status.innerText =
     `Upload done ✔\nSuccess: ${ok}/${selectedFiles.length}`;
-
-  selectedFiles = [];
 };
 </script>
 
