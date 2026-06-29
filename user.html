@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>EnglishWithTunahan</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -19,11 +18,9 @@
 body{
   display:flex;
   min-height:100vh;
-  height:auto;
-  overflow-x:hidden;
-  overflow-y: auto;
   background:#0b0f1a;
   color:white;
+  overflow-x:hidden;
 }
 
 /* SIDEBAR */
@@ -39,7 +36,6 @@ body{
   transition:0.3s;
 }
 
-/* LOGO */
 .logo{
   font-weight:700;
   font-size:18px;
@@ -49,7 +45,6 @@ body{
   -webkit-text-fill-color:transparent;
 }
 
-/* BUTTONS */
 .class-btn,.bottom-btn{
   width:100%;
   padding:10px;
@@ -63,13 +58,8 @@ body{
   transition:0.2s;
 }
 
-.class-btn:hover{
+.class-btn:hover,.bottom-btn:hover{
   background:rgba(108,92,231,0.25);
-  transform:translateX(3px);
-}
-
-.bottom-btn:hover{
-  background:rgba(255,255,255,0.12);
 }
 
 /* MAIN */
@@ -88,7 +78,6 @@ body{
   background:rgba(255,255,255,0.04);
   border:1px solid rgba(255,255,255,0.08);
   text-align:center;
-  backdrop-filter:blur(10px);
 }
 
 .avatar{
@@ -112,31 +101,6 @@ body{
   font-weight:600;
 }
 
-/* HAMBURGER */
-.menu-toggle{
-  display:none;
-  position:fixed;
-  top:15px;
-  left:15px;
-  z-index:1001;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.1);
-  color:white;
-  padding:10px 14px;
-  border-radius:12px;
-  cursor:pointer;
-  backdrop-filter:blur(12px);
-}
-
-/* OVERLAY */
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  z-index:998;
-}
-
 /* MOBILE */
 @media (max-width:768px){
   .sidebar{
@@ -147,56 +111,36 @@ body{
     z-index:999;
   }
 
-  .sidebar.active{
-    left:0;
-  }
-
-  .menu-toggle{
-    display:block;
-  }
-
-  .overlay.active{
-    display:block;
-  }
-  @media (max-width:768px){
-  .main{
-    align-items:flex-start;
-    padding-top:80px;
-  }
-  }
+  .sidebar.active{left:0;}
 }
 </style>
 </head>
 
 <body>
 
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
-<div class="overlay" onclick="toggleMenu()"></div>
+<div class="sidebar" id="sidebar">
 
-<div class="sidebar">
   <div>
-    
+    <div class="logo">EnglishWithTunahan</div>
 
-    <div>
-      <div class="logo">EnglishWithTunahan</div>
-
-      <button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
-      <button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
-      <button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
-      <button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
-    </div>
+    <button class="class-btn">Grade 5</button>
+    <button class="class-btn">Grade 6</button>
+    <button class="class-btn">Grade 7</button>
+    <button class="class-btn">Grade 8</button>
   </div>
-  
-  <div class="bottom-menu">
-      <a href="user.html">
-        <button class="bottom-btn">👤 Profile</button>
-      </a>
-      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
-        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
-      </a>
-      <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
-    </div>
-  
+
+  <div>
+    <a href="user.html">
+      <button class="bottom-btn">👤 Profile</button>
+    </a>
+
+    <a href="https://quizlet.com" target="_blank">
+      <button class="bottom-btn">📚 Quizlet</button>
+    </a>
+
+    <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+
 </div>
 
 <div class="main">
@@ -208,37 +152,41 @@ body{
   </div>
 </div>
 
-<script type="module">
-
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const supabaseUrl = "https://ygrapjawsfjavggttiqw.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlncmFwamF3c2ZqYXZnZ3R0aXF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDg3MDksImV4cCI6MjA5ODIyNDcwOX0.Y-vK8xQRz3nkVreGr-XgiIwiNeN7pWPAXlSP5RUKoZo";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-const sidebar = document.querySelector(".sidebar");
-const overlay = document.querySelector(".overlay");
-
-function toggleMenu(){
-  sidebar.classList.toggle("active");
-  overlay.classList.toggle("active");
-}
-
-// user
+<script>
+/* =========================
+   USER SYSTEM
+========================= */
 const user = JSON.parse(localStorage.getItem("user"));
 
 if(!user){
-  window.location.href="index.html";
+  window.location.href = "index.html";
 }
 
-document.getElementById("name").innerText=user.name||"User";
-document.getElementById("email").innerText=user.email||"";
-document.getElementById("avatar").src=user.photo||"https://ui-avatars.com/api/?name=User";
+document.getElementById("name").innerText = user.name || "User";
+document.getElementById("email").innerText = user.email || "";
+document.getElementById("avatar").src =
+  user.photo || "https://ui-avatars.com/api/?name=User";
 
+/* =========================
+   SIDEBAR (mobile safe)
+========================= */
+const sidebar = document.getElementById("sidebar");
+
+function toggleMenu(){
+  sidebar.classList.toggle("active");
+}
+
+window.toggleMenu = toggleMenu;
+
+/* =========================
+   LOGOUT
+========================= */
 function logout(){
-  localStorage.removeItem("user");
-  window.location.href="index.html";
+  localStorage.clear();
+  window.location.href = "index.html";
 }
+
+window.logout = logout;
 </script>
 
 </body>
