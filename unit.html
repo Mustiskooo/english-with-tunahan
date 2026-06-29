@@ -2,243 +2,134 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>EnglishWithTunahan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Viewer</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Inter',sans-serif;
-}
-
 body{
-  display:flex;
-  min-height:100vh;
-  height:auto;
-  overflow-x:hidden;
-  overflow-y: auto;
+  margin:0;
+  font-family:Inter;
   background:#0b0f1a;
   color:white;
+  overflow:hidden;
 }
 
-/* SIDEBAR */
-.sidebar{
-  width:250px;
-  padding:20px;
+.top{
+  padding:15px;
+  background:rgba(255,255,255,0.03);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.container{
+  display:flex;
+  height:calc(100vh - 60px);
+}
+
+.list{
+  width:260px;
   background:rgba(255,255,255,0.03);
   border-right:1px solid rgba(255,255,255,0.08);
-  backdrop-filter:blur(12px);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  transition:0.3s;
+  overflow-y:auto;
 }
 
-/* LOGO */
-.logo{
-  font-weight:700;
-  font-size:18px;
-  margin-bottom:20px;
-  background:linear-gradient(90deg,#6c5ce7,#00d2ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-/* BUTTONS */
-.class-btn,.bottom-btn{
-  width:100%;
-  padding:10px;
-  margin-bottom:8px;
-  border-radius:10px;
-  border:none;
+.item{
+  padding:12px;
   cursor:pointer;
-  background:rgba(255,255,255,0.05);
-  color:white;
-  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,0.05);
   transition:0.2s;
 }
 
-.class-btn:hover{
-  background:rgba(108,92,231,0.25);
-  transform:translateX(3px);
+.item:hover{
+  background:rgba(108,92,231,0.2);
 }
 
-.bottom-btn:hover{
-  background:rgba(255,255,255,0.12);
-}
-
-/* MAIN */
-.main{
+.viewer{
   flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  background:white;
 }
-
-.card{
-  width:320px;
-  max-width:90%;
-  padding:25px;
-  border-radius:16px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  text-align:center;
-  backdrop-filter:blur(10px);
-}
-
-.avatar{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  margin-bottom:15px;
-}
-
-.name{font-size:20px;font-weight:700;}
-.email{font-size:13px;opacity:0.6;margin-top:5px;}
-
-.btn{
-  margin-top:20px;
-  padding:10px 15px;
+iframe{
+  width:100%;
+  height:100%;
   border:none;
-  border-radius:10px;
-  cursor:pointer;
-  background:linear-gradient(90deg,#6c5ce7,#00d2ff);
-  color:white;
-  font-weight:600;
-}
-
-/* HAMBURGER */
-.menu-toggle{
-  display:none;
-  position:fixed;
-  top:15px;
-  left:15px;
-  z-index:1001;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.1);
-  color:white;
-  padding:10px 14px;
-  border-radius:12px;
-  cursor:pointer;
-  backdrop-filter:blur(12px);
-}
-
-/* OVERLAY */
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-  z-index:998;
-}
-
-/* MOBILE */
-@media (max-width:768px){
-  .sidebar{
-    position:fixed;
-    left:-260px;
-    top:0;
-    height:100%;
-    z-index:999;
-  }
-
-  .sidebar.active{
-    left:0;
-  }
-
-  .menu-toggle{
-    display:block;
-  }
-
-  .overlay.active{
-    display:block;
-  }
-  @media (max-width:768px){
-  .main{
-    align-items:flex-start;
-    padding-top:80px;
-  }
-  }
 }
 </style>
 </head>
 
 <body>
 
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
-<div class="overlay" onclick="toggleMenu()"></div>
-
-<div class="sidebar">
-  <div>
-    
-
-    <div>
-      <div class="logo">EnglishWithTunahan</div>
-
-      <button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
-      <button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
-      <button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
-      <button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
-    </div>
-  </div>
-  
-  <div class="bottom-menu">
-      <a href="user.html">
-        <button class="bottom-btn">👤 Profile</button>
-      </a>
-      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
-        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
-      </a>
-      <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
-    </div>
-  
+<div class="top">
+  <h3 id="title">Unit</h3>
 </div>
 
-<div class="main">
-  <div class="card">
-    <img id="avatar" class="avatar">
-    <div class="name" id="name"></div>
-    <div class="email" id="email"></div>
-    <button class="btn" onclick="logout()">Logout</button>
-  </div>
+<div class="container">
+  <div class="list" id="pdfList"></div>
+  <iframe id="pdfFrame"></iframe>
 </div>
 
 <script type="module">
-
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const supabaseUrl = "https://ygrapjawsfjavggttiqw.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlncmFwamF3c2ZqYXZnZ3R0aXF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDg3MDksImV4cCI6MjA5ODIyNDcwOX0.Y-vK8xQRz3nkVreGr-XgiIwiNeN7pWPAXlSP5RUKoZo";
+/* =========================
+   SUPABASE CONNECT
+========================= */
+const supabase = createClient(
+  "https://ygrapjawsfjavggttiqw.supabase.co",
+  "YOUR_ANON_PUBLIC_KEY"
+);
 
-const supabase = createClient(supabaseUrl, supabaseKey);
-const sidebar = document.querySelector(".sidebar");
-const overlay = document.querySelector(".overlay");
+/* =========================
+   PARAMS
+========================= */
+const params = new URLSearchParams(location.search);
+const cls = Number(params.get("class")) || 5;
+const unit = Number(params.get("unit")) || 1;
 
-function toggleMenu(){
-  sidebar.classList.toggle("active");
-  overlay.classList.toggle("active");
+document.getElementById("title").innerText =
+  `Grade ${cls} - Unit ${unit}`;
+
+/* =========================
+   LOAD FILES
+========================= */
+const folder = `pdfs/grade${cls}/unit${unit}`;
+
+const listEl = document.getElementById("pdfList");
+const frame = document.getElementById("pdfFrame");
+
+async function loadPDFs(){
+
+  const { data, error } = await supabase.storage
+    .from("pdfs")
+    .list(folder);
+
+  if(error){
+    listEl.innerHTML = "Error loading files";
+    return;
+  }
+
+  listEl.innerHTML = "";
+
+  data.forEach(file => {
+
+    const { data: url } = supabase.storage
+      .from("pdfs")
+      .getPublicUrl(`${folder}/${file.name}`);
+
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerText = "📄 " + file.name;
+
+    div.onclick = () => {
+      frame.src = url.publicUrl;
+    };
+
+    listEl.appendChild(div);
+  });
+
 }
 
-// user
-const user = JSON.parse(localStorage.getItem("user"));
-
-if(!user){
-  window.location.href="index.html";
-}
-
-document.getElementById("name").innerText=user.name||"User";
-document.getElementById("email").innerText=user.email||"";
-document.getElementById("avatar").src=user.photo||"https://ui-avatars.com/api/?name=User";
-
-function logout(){
-  localStorage.removeItem("user");
-  window.location.href="index.html";
-}
+loadPDFs();
 </script>
 
 </body>
