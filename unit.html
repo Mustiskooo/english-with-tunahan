@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>EnglishWithTunahan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,237 +10,235 @@
 
 <style>
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
 }
 
 body{
-background:#0b0f1a;
-color:#fff;
+  display:flex;
+  min-height:100vh;
+  height:auto;
+  overflow-x:hidden;
+  overflow-y: auto;
+  background:#0b0f1a;
+  color:white;
 }
 
-/* TOP */
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 20px;
-background:rgba(255,255,255,0.03);
-border-bottom:1px solid rgba(255,255,255,0.08);
-position:sticky;
-top:0;
-backdrop-filter:blur(10px);
+/* SIDEBAR */
+.sidebar{
+  width:250px;
+  padding:20px;
+  background:rgba(255,255,255,0.03);
+  border-right:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:0.3s;
 }
 
-.back{
-padding:6px 10px;
-border-radius:8px;
-background:rgba(255,255,255,0.05);
-cursor:pointer;
-}
-
-.back:hover{
-background:rgba(108,92,231,0.25);
-}
-
-/* MAIN */
-.container{
-max-width:800px;
-margin:0 auto;
-padding:25px;
-}
-
-.card{
-padding:25px;
-border-radius:14px;
-background:rgba(255,255,255,0.03);
-border:1px solid rgba(255,255,255,0.08);
-}
-
-h2{
-margin-bottom:10px;
-}
-
-p{
-opacity:.75;
-line-height:1.6;
-font-size:15px;
+/* LOGO */
+.logo{
+  font-weight:700;
+  font-size:18px;
+  margin-bottom:20px;
+  background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 /* BUTTONS */
-.nav{
-display:flex;
-gap:10px;
-margin-top:15px;
+.class-btn,.bottom-btn{
+  width:100%;
+  padding:10px;
+  margin-bottom:8px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background:rgba(255,255,255,0.05);
+  color:white;
+  text-align:left;
+  transition:0.2s;
 }
+
+.class-btn:hover{
+  background:rgba(108,92,231,0.25);
+  transform:translateX(3px);
+}
+
+.bottom-btn:hover{
+  background:rgba(255,255,255,0.12);
+}
+
+/* MAIN */
+.main{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  width:320px;
+  max-width:90%;
+  padding:25px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  text-align:center;
+  backdrop-filter:blur(10px);
+}
+
+.avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  margin-bottom:15px;
+}
+
+.name{font-size:20px;font-weight:700;}
+.email{font-size:13px;opacity:0.6;margin-top:5px;}
 
 .btn{
-flex:1;
-padding:10px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-background:rgba(255,255,255,0.05);
-color:white;
+  margin-top:20px;
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:linear-gradient(90deg,#6c5ce7,#00d2ff);
+  color:white;
+  font-weight:600;
 }
 
-.btn:hover{
-background:rgba(108,92,231,0.25);
+/* HAMBURGER */
+.menu-toggle{
+  display:none;
+  position:fixed;
+  top:15px;
+  left:15px;
+  z-index:1001;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  color:white;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
 }
 
-/* PDF */
-iframe{
-width:100%;
-height:70vh;
-margin-top:20px;
-border:none;
-border-radius:12px;
-background:white;
+/* OVERLAY */
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  z-index:998;
 }
 
-#status{
-margin-top:10px;
-opacity:.6;
+/* MOBILE */
+@media (max-width:768px){
+  .sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    height:100%;
+    z-index:999;
+  }
+
+  .sidebar.active{
+    left:0;
+  }
+
+  .menu-toggle{
+    display:block;
+  }
+
+  .overlay.active{
+    display:block;
+  }
+  @media (max-width:768px){
+  .main{
+    align-items:flex-start;
+    padding-top:80px;
+  }
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">
-  <div class="back" onclick="goBack()">← Dashboard</div>
-  <div id="title">Unit</div>
-  <div></div>
-</div>
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<div class="overlay" onclick="toggleMenu()"></div>
 
-<div class="container">
+<div class="sidebar">
+  <div>
+    
 
-  <div class="card">
-    <h2 id="unitTitle"></h2>
-    <p id="desc"></p>
+    <div>
+      <div class="logo">EnglishWithTunahan</div>
 
-    <div class="nav">
-      <button class="btn" onclick="prevUnit()">← Unit</button>
-      <button class="btn" onclick="nextUnit()">Unit →</button>
-    </div>
-
-    <div class="nav">
-      <button class="btn" onclick="prevPDF()">← PDF</button>
-      <button class="btn" onclick="nextPDF()">PDF →</button>
+      <button class="class-btn active" onclick="loadClass(5)" data-class="5">Grade 5</button>
+      <button class="class-btn" onclick="loadClass(6)" data-class="6">Grade 6</button>
+      <button class="class-btn" onclick="loadClass(7)" data-class="7">Grade 7</button>
+      <button class="class-btn" onclick="loadClass(8)" data-class="8">Grade 8</button>
     </div>
   </div>
+  
+  <div class="bottom-menu">
+      <a href="user.html">
+        <button class="bottom-btn">👤 Profile</button>
+      </a>
+      <a href="https://quizlet.com/user/ttkomTUNAHAN/" target="_blank">
+        <button class="bottom-btn">📚 Teacher's Quizlet Sets</button>
+      </a>
+      <button class="bottom-btn" onclick="logout()">🚪 Logout</button>
+    </div>
+  
+</div>
 
-  <iframe id="pdfFrame"></iframe>
-
-  <div id="status"></div>
-
+<div class="main">
+  <div class="card">
+    <img id="avatar" class="avatar">
+    <div class="name" id="name"></div>
+    <div class="email" id="email"></div>
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getStorage, ref, getDownloadURL } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-/* FIREBASE */
-const firebaseConfig = {
-  apiKey: "AIzaSyD52vq0pHWiWP3CxFZB8TpzlwcTDStDM6M",
-  authDomain: "englishwithtunahan.firebaseapp.com",
-  projectId: "englishwithtunahan",
-  storageBucket: "englishwithtunahan.appspot.com",
-  appId: "1:204561726917:web:2312ea68afce1c529d5fac"
-};
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+const supabaseUrl = "https://ygrapjawsfjavggttiqw.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlncmFwamF3c2ZqYXZnZ3R0aXF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDg3MDksImV4cCI6MjA5ODIyNDcwOX0.Y-vK8xQRz3nkVreGr-XgiIwiNeN7pWPAXlSP5RUKoZo";
 
-/* DATA */
-const data = {
-5:["Greetings","My Town","Games and Hobbies","My Daily Routine","Health","Movies","Party Time","Fitness","Animal Shelter","Festivals"],
-6:["Life","Yummy Breakfast","Downtown","Weather and Emotions","At the Fair","Occupations","Holidays","Bookworms","Saving the Planet","Democracy"],
-7:["Appearance and Personality","Sports","Biographies","Wild Animals","Television","Celebrations","Dreams","Public Buildings","Environment","Planets"],
-8:["Friendship","Teen Life","In the Kitchen","On the Phone","The Internet","Adventures","Tourism","Chores","Science","Natural Forces"]
-};
+const supabase = createClient(supabaseUrl, supabaseKey);
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.querySelector(".overlay");
 
-/* PARAMS */
-const params = new URLSearchParams(location.search);
-const cls = Number(params.get("class")) || 5;
-let unit = Number(params.get("unit")) || 1;
-
-/* PDF STATE */
-let pdfIndex = 1;
-let pdfCount = 3; // şimdilik sabit
-
-function clamp(){
-  const max = data[cls].length;
-  if(unit < 1) unit = 1;
-  if(unit > max) unit = max;
+function toggleMenu(){
+  sidebar.classList.toggle("active");
+  overlay.classList.toggle("active");
 }
 
-/* TEXT */
-function render(){
-  clamp();
-  document.getElementById("title").innerText = `Grade ${cls} - Unit ${unit}`;
-  document.getElementById("unitTitle").innerText = `Unit ${unit}`;
-  document.getElementById("desc").innerText = data[cls][unit-1];
+// user
+const user = JSON.parse(localStorage.getItem("user"));
+
+if(!user){
+  window.location.href="index.html";
 }
 
-/* PDF LOAD */
-async function loadPDF(){
-  try{
-    const path = `pdfs/grade${cls}/unit${unit}/${pdfIndex}.pdf`;
-    const pdfRef = ref(storage, path);
-    const url = await getDownloadURL(pdfRef);
+document.getElementById("name").innerText=user.name||"User";
+document.getElementById("email").innerText=user.email||"";
+document.getElementById("avatar").src=user.photo||"https://ui-avatars.com/api/?name=User";
 
-    document.getElementById("pdfFrame").src = url;
-    document.getElementById("status").innerText = `PDF ${pdfIndex}/${pdfCount}`;
-  }
-  catch(e){
-    document.getElementById("pdfFrame").src = "";
-    document.getElementById("status").innerText = "No PDF found ❌";
-  }
+function logout(){
+  localStorage.removeItem("user");
+  window.location.href="index.html";
 }
-
-/* UNIT NAV */
-window.nextUnit = function(){
-  if(unit < data[cls].length){
-    unit++;
-    pdfIndex = 1;
-    location.href = `unit.html?class=${cls}&unit=${unit}`;
-  }
-}
-
-window.prevUnit = function(){
-  if(unit > 1){
-    unit--;
-    pdfIndex = 1;
-    location.href = `unit.html?class=${cls}&unit=${unit}`;
-  }
-}
-
-/* PDF NAV */
-window.nextPDF = function(){
-  if(pdfIndex < pdfCount){
-    pdfIndex++;
-    loadPDF();
-  }
-}
-
-window.prevPDF = function(){
-  if(pdfIndex > 1){
-    pdfIndex--;
-    loadPDF();
-  }
-}
-
-window.goBack = function(){
-  location.href = "dashboard.html";
-}
-
-/* INIT */
-render();
-loadPDF();
 </script>
 
 </body>
