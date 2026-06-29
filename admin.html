@@ -2,62 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel - EnglishWithTunahan</title>
+<title>Admin Paneli</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 body{
-margin:0;
-font-family:Inter;
-background:#0b0f1a;
-color:white;
+  margin:0;
+  font-family:Inter;
+  background:#0b0f1a;
+  color:white;
 }
 
 .top{
-padding:15px 20px;
-background:rgba(255,255,255,.03);
-border-bottom:1px solid rgba(255,255,255,.08);
-display:flex;
-justify-content:space-between;
+  padding:15px 20px;
+  background:rgba(255,255,255,.03);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;
+  justify-content:space-between;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:20px;
+  max-width:900px;
+  margin:auto;
+  padding:20px;
 }
 
 .card{
-background:rgba(255,255,255,.03);
-border:1px solid rgba(255,255,255,.08);
-padding:20px;
-border-radius:16px;
-margin-bottom:20px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:20px;
 }
 
-input, select{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:10px;
-border:none;
-outline:none;
+select{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+  border:none;
+}
+
+.dropzone{
+  margin-top:15px;
+  padding:40px;
+  border:2px dashed rgba(255,255,255,0.3);
+  border-radius:12px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.dropzone:hover{
+  border-color:#6c5ce7;
+  background:rgba(108,92,231,0.1);
+}
+
+.dropzone.dragover{
+  border-color:#00d2ff;
+  background:rgba(0,210,255,0.1);
 }
 
 button{
-margin-top:10px;
-padding:10px 14px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-background:#6c5ce7;
-color:white;
+  margin-top:15px;
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#6c5ce7;
+  color:white;
 }
 
 button:hover{
-opacity:0.9;
+  opacity:0.9;
+}
+
+#status{
+  margin-top:10px;
+  opacity:0.7;
+  white-space:pre-line;
 }
 </style>
 </head>
@@ -65,43 +90,47 @@ opacity:0.9;
 <body>
 
 <div class="top">
-<div>🛠 Admin Panel v1.0</div>
-<div><button onclick="location.href='dashboard.html'">Dashboard</button></div>
+  <div>🛠 Admin Panel (Drag & Drop)</div>
+  <button onclick="location.href='dashboard.html'">Dashboard</button>
 </div>
 
 <div class="container">
 
 <div class="card">
-<h2>📚 Upload PDF</h2>
+
+<h2>Upload PDFs</h2>
 
 <select id="grade">
-<option value="5">Grade 5</option>
-<option value="6">Grade 6</option>
-<option value="7">Grade 7</option>
-<option value="8">Grade 8</option>
+  <option value="5">Grade 5</option>
+  <option value="6">Grade 6</option>
+  <option value="7">Grade 7</option>
+  <option value="8">Grade 8</option>
 </select>
 
 <select id="unit">
-<option value="1">Unit 1</option>
-<option value="2">Unit 2</option>
-<option value="3">Unit 3</option>
-<option value="4">Unit 4</option>
-<option value="5">Unit 5</option>
-<option value="6">Unit 6</option>
-<option value="7">Unit 7</option>
-<option value="8">Unit 8</option>
-<option value="9">Unit 9</option>
-<option value="10">Unit 10</option>
+  <option value="1">Unit 1</option>
+  <option value="2">Unit 2</option>
+  <option value="3">Unit 3</option>
+  <option value="4">Unit 4</option>
+  <option value="5">Unit 5</option>
+  <option value="6">Unit 6</option>
+  <option value="7">Unit 7</option>
+  <option value="8">Unit 8</option>
+  <option value="9">Unit 9</option>
+  <option value="10">Unit 10</option>
 </select>
 
-<input type="file" id="file" accept="application/pdf" multiple>
-
-<button onclick="uploadPDF()">Upload</button>
+<div id="dropzone" class="dropzone">
+  📂 Drag & Drop PDF files here<br>
+  or click to select
 </div>
 
-<div class="card">
-<h2>📦 Status</h2>
+<input type="file" id="file" multiple accept="application/pdf" hidden>
+
+<button onclick="uploadPDF()">Upload</button>
+
 <div id="status">Waiting...</div>
+
 </div>
 
 </div>
@@ -110,57 +139,89 @@ opacity:0.9;
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 /* =========================
-   SUPABASE CONNECT
+   SUPABASE
 ========================= */
-const supabaseUrl = "https://ygrapjawsfjavggttiqw.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlncmFwamF3c2ZqYXZnZ3R0aXF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDg3MDksImV4cCI6MjA5ODIyNDcwOX0.Y-vK8xQRz3nkVreGr-XgiIwiNeN7pWPAXlSP5RUKoZo";
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = createClient(
+  "https://ygrapjawsfjavggttiqw.supabase.co",
+  "YOUR_ANON_KEY"
+);
 
 /* =========================
-   UPLOAD FUNCTION
+   FILE STATE
+========================= */
+let selectedFiles = [];
+
+/* =========================
+   ELEMENTS
+========================= */
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("file");
+const status = document.getElementById("status");
+
+/* =========================
+   CLICK TO OPEN FILE
+========================= */
+dropzone.onclick = () => fileInput.click();
+
+fileInput.onchange = (e) => {
+  selectedFiles = [...e.target.files];
+  status.innerText = `${selectedFiles.length} file selected`;
+};
+
+/* =========================
+   DRAG & DROP
+========================= */
+dropzone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  dropzone.classList.add("dragover");
+});
+
+dropzone.addEventListener("dragleave", () => {
+  dropzone.classList.remove("dragover");
+});
+
+dropzone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  dropzone.classList.remove("dragover");
+
+  selectedFiles = [...e.dataTransfer.files];
+  status.innerText = `${selectedFiles.length} file dropped`;
+});
+
+/* =========================
+   UPLOAD
 ========================= */
 window.uploadPDF = async function () {
 
-  const file = document.getElementById("file").files[0];
-  const grade = document.getElementById("grade").value;
-  const unit = document.getElementById("unit").value;
-
-  if (!file) {
-    document.getElementById("status").innerText = "Dosya seçilmedi ❌";
+  if (!selectedFiles.length) {
+    status.innerText = "No files selected ❌";
     return;
   }
 
-  document.getElementById("status").innerText = "Uploading... ⏳";
+  const grade = document.getElementById("grade").value;
+  const unit = document.getElementById("unit").value;
 
-  try {
+  const folder = `pdfs/grade${grade}/unit${unit}`;
 
-    // birden fazla PDF desteği için dosya ismi kullanıyoruz
-    const path = `pdfs/grade${grade}/unit${unit}/${file.name}`;
+  status.innerText = "Uploading... ⏳";
+
+  let ok = 0;
+
+  for (let file of selectedFiles) {
+
+    const path = `${folder}/${Date.now()}-${file.name}`;
 
     const { error } = await supabase.storage
       .from("pdfs")
-      .upload(path, file, {
-        upsert: true
-      });
+      .upload(path, file, { upsert: true });
 
-    if (error) {
-      console.log(error);
-      document.getElementById("status").innerText = "Hata ❌";
-      return;
-    }
-
-    const { data } = supabase.storage
-      .from("pdfs")
-      .getPublicUrl(path);
-
-    document.getElementById("status").innerText =
-      "Uploaded ✔\n" + data.publicUrl;
-
-  } catch (err) {
-    console.log(err);
-    document.getElementById("status").innerText = "Error ❌";
+    if (!error) ok++;
   }
+
+  status.innerText =
+    `Upload done ✔\nSuccess: ${ok}/${selectedFiles.length}`;
+
+  selectedFiles = [];
 };
 </script>
 
