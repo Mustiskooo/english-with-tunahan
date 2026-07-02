@@ -136,20 +136,9 @@ button:hover{
 </div>
 
 <script type="module">
-  import { protectPage, isAdmin } from "./app.js";
+import { protectPage, getUser, isAdmin } from "./app.js";
 
-const user = await protectPage();
-
-if (!isAdmin(user)) {
-  window.location.href = "dashboard.html";
-}
-  
-  import {
-  protectPage,
-  getUser,
-  isAdmin
-} from "./app.js";
-
+/* protect */
 protectPage();
 
 const user = getUser();
@@ -157,7 +146,7 @@ const user = getUser();
 if (!isAdmin(user)) {
   window.location.href = "dashboard.html";
 }
-  
+  /* buradan itibaren supabase ve backend, storage kısımları */
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
