@@ -283,7 +283,7 @@ import {
   logout
 } from "./app.js";
 
-protectPage();
+const user = await protectPage();
 
 let currentClass = 5;
 /* en tatlı yer */
@@ -390,22 +390,7 @@ function loadClass(c){
   });
 
 }
-  /* kullanıcı */
-
-const user = getUser();
-
-if (user) {
-  document.getElementById("userName").textContent =
-    user.displayName || user.name || "User";
-
-  document.getElementById("userEmail").textContent =
-    user.email || "";
-
-  if (user.photoURL || user.photo) {
-    document.getElementById("userPhoto").src =
-      user.photoURL || user.photo;
-  }
-}
+  
 
 /* admin */
 
