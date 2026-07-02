@@ -136,6 +136,14 @@ button:hover{
 </div>
 
 <script type="module">
+  import { protectPage, isAdmin } from "./app.js";
+
+const user = await protectPage();
+
+if (!isAdmin(user)) {
+  window.location.href = "dashboard.html";
+}
+  
   import {
   protectPage,
   getUser,
