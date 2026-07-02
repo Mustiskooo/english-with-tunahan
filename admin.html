@@ -136,17 +136,18 @@ button:hover{
 </div>
 
 <script type="module">
-import { protectPage, getUser, isAdmin } from "./app.js";
+import { protectPage, isAdmin } from "./app.js";
 
-/* protect */
-protectPage();
+/* 🔐 auth + user bekle */
+const user = await protectPage();
 
-const user = getUser();
-
+/* 🚪 admin değilse çık */
 if (!isAdmin(user)) {
   window.location.href = "dashboard.html";
 }
+
   /* buradan itibaren supabase ve backend, storage kısımları */
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
@@ -220,6 +221,7 @@ window.uploadPDF = async function () {
 
   selectedFiles = [];
 };
+  
 </script>
 
 </body>
