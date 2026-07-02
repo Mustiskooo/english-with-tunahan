@@ -71,17 +71,13 @@ iframe{
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-/* =========================
-   SUPABASE CONNECT
-========================= */
+/* supabase connect */
 const supabase = createClient(
   "https://ygrapjawsfjavggttiqw.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlncmFwamF3c2ZqYXZnZ3R0aXF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDg3MDksImV4cCI6MjA5ODIyNDcwOX0.Y-vK8xQRz3nkVreGr-XgiIwiNeN7pWPAXlSP5RUKoZo"
 );
 
-/* =========================
-   PARAMS
-========================= */
+/* constparamclsunit yaz işte sorgulama */
 const params = new URLSearchParams(location.search);
 const cls = Number(params.get("class")) || 5;
 const unit = Number(params.get("unit")) || 1;
@@ -89,9 +85,7 @@ const unit = Number(params.get("unit")) || 1;
 document.getElementById("title").innerText =
   `Grade ${cls} - Unit ${unit}`;
 
-/* =========================
-   LOAD FILES
-========================= */
+/* load files */
 const folder = `grade${cls}/unit${unit}`;
 
 const listEl = document.getElementById("pdfList");
