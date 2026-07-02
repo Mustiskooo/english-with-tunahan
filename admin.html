@@ -136,6 +136,20 @@ button:hover{
 </div>
 
 <script type="module">
+  import {
+  protectPage,
+  getUser,
+  isAdmin
+} from "./app.js";
+
+protectPage();
+
+const user = getUser();
+
+if (!isAdmin(user)) {
+  window.location.href = "dashboard.html";
+}
+  
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
