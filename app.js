@@ -30,11 +30,6 @@ export async function loginGoogle() {
   window.location.href = "dashboard.html";
 }
 
-/* guest */
-export function guestLogin() {
-  localStorage.setItem("guest", "true");
-  window.location.href = "dashboard.html";
-}
 
 /* button events (guestlogin, googlelogin etc. ) */
 const googleBtn = document.getElementById("google-login");
@@ -42,10 +37,6 @@ if (googleBtn) {
   googleBtn.addEventListener("click", loginGoogle);
 }
 
-const guestBtn = document.getElementById("guest-login");
-if (guestBtn) {
-  guestBtn.addEventListener("click", guestLogin);
-}
 
 /*auth guard*/
 export function protectPage() {
