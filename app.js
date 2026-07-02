@@ -1,3 +1,4 @@
+/* dsc */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
   getAuth,
@@ -17,58 +18,58 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+
+export const auth = getAuth(app);
+
 const provider = new GoogleAuthProvider();
 
-/* login */
+/* google login işlemleri */
+
 export async function loginGoogle() {
   await setPersistence(auth, browserLocalPersistence);
 
-  const result = await signInWithPopup(auth, provider);
-  const user = result.user;
+  await signInWithPopup(auth, provider);
 
-  window.location.href = "dashboard.html";
+  location.replace("dashboard.html");
 }
 
+/* login butonu */
 
-/* button events (guestlogin, googlelogin etc. ) */
 const googleBtn = document.getElementById("google-login");
+
 if (googleBtn) {
   googleBtn.addEventListener("click", loginGoogle);
 }
 
+/* güvenlik kulübesi (auth guard) */
 
-/*auth guard*/
-export function protectPage() {
+export function protectPage(callback) {
   onAuthStateChanged(auth, (user) => {
-    const guest = localStorage.getItem("guest");
 
-    if (!user && !guest) {
-      window.location.href = "index.html";
+    if (!user) {
+      location.replace("index.html");
+      return;
     }
+
+    callback(user);
+
   });
 }
 
-/*user things*/
-export function getUser() {
-  return JSON.parse(localStorage.getItem("user"));
-}
+/* güvenlik kulübesi (admin check) */
 
-/* admin stuff */
 export function isAdmin(user) {
-  return user?.email === "yazicimustafayazici05@gmail.com"; // change with your (admin's) e-mail
+  return user?.email === "yazicimustafayazici05@gmail.com";
 }
 
-/* logout */
+/* logout işlemleri */
+
 export async function logout() {
   try {
     await signOut(auth);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 
-  localStorage.clear();
-  sessionStorage.clear();
-
-  window.location.href = "index.html";
+  location.replace("index.html");
 }
