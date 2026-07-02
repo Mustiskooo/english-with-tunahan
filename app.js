@@ -53,3 +53,14 @@ export async function logout() {
 
   window.location.href = "index.html";
 }
+window.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("google-login");
+
+  if (!btn) {
+    console.log("google-login button NOT FOUND");
+    return;
+  }
+
+  btn.addEventListener("click", loginGoogle);
+  console.log("Google login button bound ✔");
+});
