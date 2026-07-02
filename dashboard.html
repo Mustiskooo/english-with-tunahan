@@ -285,6 +285,16 @@ import {
 
 const user = await protectPage();
 
+  document.getElementById("userName").textContent =
+  user.displayName || user.email?.split("@")[0] || "User";
+
+document.getElementById("userEmail").textContent =
+  user.email || "";
+
+document.getElementById("userPhoto").src =
+  user.photoURL ||
+  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email || "User")}`;
+
 let currentClass = 5;
 /* en tatlı yer */
 const data = {
