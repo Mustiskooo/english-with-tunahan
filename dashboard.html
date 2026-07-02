@@ -277,12 +277,16 @@ padding-top:70px;
 </div>
 
 <script type="module">
-import { protectPage, getUser, isAdmin, logout } from "./app.js";
+import {
+  protectPage,
+  getUser,
+  isAdmin,
+  logout
+} from "./app.js";
 
 protectPage();
 
 let currentClass = 5;
-const user = getUser();
 
 /* =========================
    DATA
@@ -349,9 +353,6 @@ const data = {
   }
 };
 
-/* =========================
-   UI HELPERS
-========================= */
 function setActiveClass(c){
   document.querySelectorAll(".class-btn").forEach(btn=>{
     btn.classList.remove("active");
@@ -361,70 +362,88 @@ function setActiveClass(c){
   });
 }
 
-/* =========================
-   LOAD CLASS
-========================= */
 function loadClass(c){
+
   currentClass = c;
-  document.getElementById("title").innerText = "Grade " + c;
+
+  document.getElementById("title").innerText = `Grade ${c}`;
 
   setActiveClass(c);
 
   const grid = document.getElementById("grid");
+
   grid.innerHTML = "";
 
-  data[c].units.forEach((desc, i)=>{
-    const div = document.createElement("div");
-    div.className = "card";
+  data[c].units.forEach((desc,i)=>{
 
-    div.innerHTML = `
+    const card = document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
       <h3>Unit ${i+1}</h3>
       <p>${desc}</p>
     `;
 
-    div.onclick = () => {
-      location.href = `unit.html?class=${c}&unit=${i+1}`;
+    card.onclick = ()=>{
+      location.href=`unit.html?class=${c}&unit=${i+1}`;
     };
 
-    grid.appendChild(div);
+    grid.appendChild(card);
+
   });
+
 }
+  /* kullanıcı */
 
-/* =========================
-   MOBILE MENU
-========================= */
-function toggleMenu(){
-  document.querySelector(".sidebar").classList.toggle("active");
-}
+const user = getUser();
 
-/* =========================
-   USER UI
-========================= */
-if(user){
-  document.getElementById("userName").innerText = user.name || "Guest";
-  document.getElementById("userEmail").innerText = user.email || "";
+if (user) {
+  document.getElementById("userName").textContent =
+    user.displayName || user.name || "User";
 
-  if(user.photo){
-    document.getElementById("userPhoto").src = user.photo;
+  document.getElementById("userEmail").textContent =
+    user.email || "";
+
+  if (user.photoURL || user.photo) {
+    document.getElementById("userPhoto").src =
+      user.photoURL || user.photo;
   }
 }
 
-/* =========================
-   ADMIN
-========================= */
-if(isAdmin(user)){
-  document.getElementById("adminBadge").style.display = "block";
+/* admin */
+
+if (isAdmin(user)) {
+
+  document.getElementById("adminBadge").style.display = "inline-block";
+
+  const btn = document.createElement("button");
+
+  btn.className = "bottom-btn";
+  btn.textContent = "🛠 Admin Panel";
+
+  btn.onclick = () => {
+    location.href = "admin.html";
+  };
+
+  document.querySelector(".bottom-menu").prepend(btn);
 }
 
-/* =========================
-   GLOBALS
-========================= */
+/* mobil */
+
+function toggleMenu() {
+  document.querySelector(".sidebar").classList.toggle("active");
+}
+
+/* globals */
+
 window.loadClass = loadClass;
 window.toggleMenu = toggleMenu;
 window.logout = logout;
 
-/* INIT */
-loadClass(5);
+/* init */
+
+loadClass(currentClass);
 
 </script>
   
