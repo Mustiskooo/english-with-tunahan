@@ -27,12 +27,6 @@ export async function loginGoogle() {
   const result = await signInWithPopup(auth, provider);
   const user = result.user;
 
-  localStorage.setItem("user", JSON.stringify({
-    name: user.displayName || "",
-    email: user.email || "",
-    photo: user.photoURL || ""
-  }));
-
   window.location.href = "dashboard.html";
 }
 
