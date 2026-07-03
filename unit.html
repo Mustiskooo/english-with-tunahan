@@ -137,12 +137,13 @@ const listEl = document.getElementById("pdfList");
 
 function formatFileName(fileName) {
   return fileName
-    .replace(/\.[^/.]+$/, "")      // .pdf kaldır
-    .replace(/^\d+[-_ ]*/, "")     // 01-, 02_ vb. kaldır
-    .replace(/[-_]+/g, " ")        // - ve _ -> boşluk
+    .replace(/\.[^/.]+$/, "") // .pdf kaldır
+    .replace(/^[a-f0-9-]{36}-/i, "") // UUID kaldır
+    .replace(/^\d+[-_ ]*/, "") // 01-, 02_ vb. kaldır
+    .replace(/[-_]+/g, " ") // - ve _ -> boşluk
     .replace(/\b\w/g, c => c.toUpperCase()); // İlk harfleri büyüt
 }
-
+    
 async function loadPDFs() {
 
   const { data, error } = await supabase.storage
