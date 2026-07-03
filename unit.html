@@ -60,12 +60,23 @@ iframe{
 <body>
 
 <div class="top">
-  <h3 id="title">Unit</h3>
+  <div>
+    <h2 id="title">Unit</h2>
+    <p>Study materials</p>
+  </div>
+<a href="dashboard.html">
+  <button class="back" onclick="history.back()">
+    ← Dashboard
+  </button>
 </div>
+</a>
 
 <div class="container">
-  <div class="list" id="pdfList"></div>
-  <iframe id="pdfFrame"></iframe>
+
+  <div class="pdf-grid" id="pdfList">
+    <!-- Supabase'den gelen PDF kartları buraya otomatik eklenecek -->
+  </div>
+
 </div>
 
 <script type="module">
