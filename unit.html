@@ -9,52 +9,32 @@
 
 <style>
 body{
-  margin:0;
-  font-family:Inter;
-  background:#0b0f1a;
-  color:white;
-  overflow:hidden;
+    margin:0;
+    font-family:Inter,sans-serif;
+    background:#0b0f1a;
+    color:white;
 }
 
 .top{
-  padding:15px;
-  background:rgba(255,255,255,0.03);
-  border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:18px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:rgba(255,255,255,.03);
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.container{
-  display:flex;
-  height:calc(100vh - 60px);
+.top h2{
+    margin:0;
 }
 
-.list{
-  width:260px;
-  background:rgba(255,255,255,0.03);
-  border-right:1px solid rgba(255,255,255,0.08);
-  overflow-y:auto;
+.top p{
+    margin:4px 0 0;
+    color:#94a3b8;
 }
 
-.item{
-  padding:12px;
-  cursor:pointer;
-  border-bottom:1px solid rgba(255,255,255,0.05);
-  transition:0.2s;
-}
-
-.item:hover{
-  background:rgba(108,92,231,0.2);
-}
-
-.viewer{
-  flex:1;
-  background:white;
-}
-iframe{
-  width:100%;
-  height:100%;
-  border:none;
-}
-  .back{
+.back{
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -75,31 +55,64 @@ iframe{
 .back:hover{
     transform:translateY(-2px);
 }
+
+.container{
+    height:calc(100vh - 77px);
+    overflow-y:auto;
+    padding:30px;
+}
+
+.pdf-grid{
+    display:grid;
+    gap:20px;
+    max-width:900px;
+    margin:auto;
+}
+
+.item{
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    padding:22px;
+
+    transition:.25s;
+
+    text-align:center;
+}
+
+.item:hover{
+    border-color:#6c5ce7;
+    background:rgba(108,92,231,.15);
+    transform:translateY(-3px);
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-  <div>
-    <h2 id="title">Unit</h2>
-    <p>Study materials</p>
-  </div>
-<a href="dashboard.html">
-  <button class="back" onclick="history.back()">
-    ← Dashboard
-  </button>
+
+    <div>
+        <h2 id="title">Unit</h2>
+        <p>Study materials</p>
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← Dashboard
+    </a>
+
 </div>
-</a>
 
 <div class="container">
 
-  <div class="pdf-grid" id="pdfList">
-    <!-- Supabase'den gelen PDF kartları buraya otomatik eklenecek -->
-  </div>
+    <div id="pdfList" class="pdf-grid">
+        <!-- JS buraya item ekleyecek -->
+    </div>
 
 </div>
-
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
