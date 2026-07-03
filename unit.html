@@ -134,45 +134,13 @@ document.getElementById("title").innerText =
 const folder = `grade${cls}/unit${unit}`;
 
 const listEl = document.getElementById("pdfList");
-const frame = document.getElementById("pdfFrame");
 
-async function loadPDFs(){
-
-  const { data, error } = await supabase.storage
-    .from("pdfs")
-    .list(folder);
-
-  if(error){
-    listEl.innerHTML = "Error loading files";
-    return;
-  }
-
-  listEl.innerHTML = "";
-
-  data.forEach(file => {
-
-    const { data: url } = supabase.storage
-      .from("pdfs")
-      .getPublicUrl(`${folder}/${file.name}`);
-
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerText = "📄 " + file.name;
-
-    div.onclick = () => {
-      frame.src = url.publicUrl;
-    };
-
-    listEl.appendChild(div);
-  });
-
-}
 function formatFileName(fileName) {
   return fileName
-    .replace(/\.[^/.]+$/, "")      /* .pdf kaldır */
-    .replace(/^\d+[-_ ]*/, "")     /* 01-, 02_ vb. kaldır */
-    .replace(/[-_]+/g, " ")        /* - ve _ -> boşluk */
-    .replace(/\b\w/g, c => c.toUpperCase()); /* İlk harfleri büyüt */
+    .replace(/\.[^/.]+$/, "")      // .pdf kaldır
+    .replace(/^\d+[-_ ]*/, "")     // 01-, 02_ vb. kaldır
+    .replace(/[-_]+/g, " ")        // - ve _ -> boşluk
+    .replace(/\b\w/g, c => c.toUpperCase()); // İlk harfleri büyüt
 }
 
 async function loadPDFs() {
@@ -185,6 +153,10 @@ async function loadPDFs() {
     listEl.innerHTML = "Error loading files";
     return;
   }
+
+  data.sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { numeric: true })
+  );
 
   listEl.innerHTML = "";
 
@@ -209,7 +181,6 @@ async function loadPDFs() {
 
 }
 
-loadPDFs();
 loadPDFs();
 </script>
 
