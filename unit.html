@@ -114,72 +114,68 @@ body{
 
 </div>
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-/* supabase connect */
-const supabase = createClient(
-  "https://YOUR_PROJECT_ID.supabase.co",
-  "ANON_KEY"
-);
-
-/* constparamclsunit yaz işte sorgulama */
 const params = new URLSearchParams(location.search);
 const cls = Number(params.get("class")) || 5;
 const unit = Number(params.get("unit")) || 1;
 
 document.getElementById("title").innerText =
-  `Grade ${cls} - Unit ${unit}`;
+  `Grade ${cls} • Unit ${unit}`;
 
-/* load files */
 const folder = `grade${cls}/unit${unit}`;
-
 const listEl = document.getElementById("pdfList");
 
 function formatFileName(fileName) {
   return fileName
     .replace(/\.[^/.]+$/, "") // .pdf kaldır
     .replace(/^[a-f0-9-]{36}-/i, "") // UUID kaldır
-    .replace(/^\d+[-_ ]*/, "") // 01-, 02_ vb. kaldır
-    .replace(/[-_]+/g, " ") // - ve _ -> boşluk
-    .replace(/\b\w/g, c => c.toUpperCase()); // İlk harfleri büyüt
+    .replace(/^\d+[-_ ]*/, "") // 01-, 02_ vb.
+    .replace(/[-_]+/g, " ") // - ve _ → boşluk
+    .replace(/\b\w/g, c => c.toUpperCase()); // Capitalize
 }
-    
+
 async function loadPDFs() {
 
-  const { data, error } = await supabase.storage
-    .from("pdfs")
-    .list(folder);
+  const indexUrl =
+    `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/index.json`;
 
-  if (error) {
+  try {
+
+    const res = await fetch(indexUrl);
+
+    if (!res.ok) {
+      listEl.innerHTML = "No files found 😢";
+      return;
+    }
+
+    const files = await res.json();
+
+    // sıralama
+    files.sort((a, b) =>
+      a.localeCompare(b, undefined, { numeric: true })
+    );
+
+    listEl.innerHTML = "";
+
+    files.forEach(file => {
+
+      const pdfUrl =
+        `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/${file}`;
+
+      const div = document.createElement("div");
+      div.className = "item";
+
+      div.innerText = "📄 " + formatFileName(file);
+
+      div.onclick = () => {
+        window.open(pdfUrl, "_blank");
+      };
+
+      listEl.appendChild(div);
+    });
+
+  } catch (e) {
     listEl.innerHTML = "Error loading files";
-    return;
   }
-
-  data.sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, { numeric: true })
-  );
-
-  listEl.innerHTML = "";
-
-  data.forEach(file => {
-
-    const { data: url } = supabase.storage
-      .from("pdfs")
-      .getPublicUrl(`${folder}/${file.name}`);
-
-    const div = document.createElement("div");
-    div.className = "item";
-
-    div.innerText = "📄 " + formatFileName(file.name);
-
-    div.onclick = () => {
-      window.open(url.publicUrl, "_blank");
-    };
-
-    listEl.appendChild(div);
-
-  });
-
 }
 
 loadPDFs();
