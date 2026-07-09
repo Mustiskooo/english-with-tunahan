@@ -138,23 +138,14 @@ button:hover{
 <script type="module">
 import { protectPage, isAdmin } from "./app.js";
 
-/* 🔐 auth + user bekle */
+/* auth + user bekle */
 const user = await protectPage();
 
 /* 🚪 admin değilse çık */
 if (!isAdmin(user)) {
   window.location.href = "dashboard.html";
 }
-
-  /* buradan itibaren supabase ve backend, storage kısımları */
-
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const supabase = createClient(
-  "https://ygrapjawsfjavggttiqw.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlncmFwamF3c2ZqYXZnZ3R0aXF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI2NDg3MDksImV4cCI6MjA5ODIyNDcwOX0.Y-vK8xQRz3nkVreGr-XgiIwiNeN7pWPAXlSP5RUKoZo"
-);
-
+  
 let selectedFiles = [];
 
 const dropzone = document.getElementById("dropzone");
@@ -194,33 +185,51 @@ window.uploadPDF = async function () {
   const grade = document.getElementById("grade").value;
   const unit = document.getElementById("unit").value;
 
-  const folder = `grade${grade}/unit${unit}`;
-
   status.innerText = "Uploading... ⏳";
 
-  let ok = 0;
+  const formData = new FormData();
 
-  for (let file of selectedFiles) {
+  formData.append("grade", grade);
+  formData.append("unit", unit);
 
-    // bi bozul nasıl ratlıyorum supabasenin websitesini
-    const path = `${folder}/${crypto.randomUUID()}-${file.name}`;
-
-    const { error } = await supabase.storage
-      .from("pdfs")
-      .upload(path, file, { upsert: true });
-
-    if (error) {
-      console.log("UPLOAD ERROR:", error);
-    } else {
-      ok++;
-    }
+  for (const file of selectedFiles) {
+    formData.append("files", file);
   }
 
-  status.innerText =
-    `Upload done ✔\nSuccess: ${ok}/${selectedFiles.length}`;
+  try {
 
-  selectedFiles = [];
+    const response = await fetch(
+      "https://englishwithtunahan-api.micromusti642.workers.dev/upload",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+    if (!response.ok) {
+      status.innerText = result.error || "Upload failed ❌";
+      return;
+    }
+
+    status.innerText = "✅ Worker received the files!";
+
+    selectedFiles = [];
+    fileInput.value = "";
+
+  } catch (err) {
+
+    console.error(err);
+
+    status.innerText = "❌ Failed to contact Worker.";
+
+  }
+
 };
+
   
 </script>
 
