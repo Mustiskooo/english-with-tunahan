@@ -1,95 +1,126 @@
-<h1 align="center"><a href="https://englishwithtunahan.vercel.app"><b> EnglishWithTunahan 🚀 </b></a></h1>
+<h1 align="center">
+  <a href="https://englishwithtunahan.vercel.app">
+    <b>EnglishWithTunahan 🚀</b>
+  </a>
+</h1>
 
 <p align="center">
-  <i>Build by Muffixx ( namıdiğer *Yazıcı* )</i>
+  A modern English learning platform for Grades 5–8.
 </p>
 
-<div align="center">
+<p align="center">
+Built with 💙 by <b>Muffixx</b> (aka <i>Yazıcı</i>)
+</p>
+
+<p align="center">
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
-![Firebase](https://img.shields.io/badge/firebase-used-orange.svg)
-![Language](https://img.shields.io/badge/language-html%20%2B%20javascript-yellow.svg)
+![Firebase Auth](https://img.shields.io/badge/Firebase-Authentication-orange.svg)
+![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020.svg)
+![Hugging Face](https://img.shields.io/badge/HuggingFace-Datasets-yellow.svg)
+![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E.svg)
 
-</div>
+</p>
+
+---
+
+## 📖 About
+
+**EnglishWithTunahan** is a modern English learning platform developed for English teachers and students.
+
+Teachers can securely upload lesson materials through an admin panel, while students can browse and download resources organized by **grade** and **unit**.
 
 ---
 
 ## ✨ Features
 
-- ⚡ Fast and minimal UI  
-- 📱 Fully responsive design (mobile-first)  
-- 🔐 Google authentication with Firebase  
-- 📚 Structured lesson / slide system  
-- ☁️ Firebase integration (Auth + Storage)  
-- 🎯 Clean and distraction-free learning experience  
+- 🔐 Google Authentication (Firebase)
+- 👨‍🏫 Protected Admin Panel
+- 📤 Drag & Drop file uploads
+- ☁️ Cloudflare Workers backend
+- 🤗 Hugging Face Dataset storage
+- 📚 Grade & Unit based organization
+- 📥 Student download system
+- 📱 Fully responsive design
+- ⚡ Fast and lightweight interface
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠 Tech Stack
 
-- HTML5  
-- CSS3  
-- JavaScript (Vanilla)  
-- Firebase  
-- Git & GitHub  
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Firebase Authentication
+- Cloudflare Workers
+- Hugging Face Datasets
+- Git & GitHub
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 
-assets/ → images, icons, media  
-css/ → stylesheets  
-js/ → scripts  
-pages/ → additional pages  
-index.html → entry point  
+```text
+.
+├── assets/
+├── css/
+├── js/
+├── pages/
+├── worker/
+└── index.html
+```
 
 ---
 
 ## 🚀 Getting Started
-```js
-git clone https://github.com/Mustiskooo/englishwithtunahan
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Mustiskooo/englishwithtunahan.git
 ```
 
-```js
+Enter the project folder:
+
+```bash
 cd englishwithtunahan
 ```
 
-```js
-Open `index.html`
-```
+Open `index.html` or run the project using your preferred local web server.
 
 ---
 
-## 🔐 Firebase Setup
+## 🔒 Authentication
 
-Add your config inside your JS file:
+Authentication is handled using **Firebase Google Authentication**.
 
-```js
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-```
+Only authorized administrator accounts can access the admin panel.
 
 ---
 
-## 🎯 Goal
+## ☁️ File Storage
 
-Make English learning more modern, accessible, and enjoyable.
+Lesson files are uploaded through **Cloudflare Workers** and securely stored inside a **Hugging Face Dataset** repository.
+
+This architecture keeps sensitive API tokens hidden while providing version-controlled storage.
 
 ---
 
-## 📌 License
+## 🎯 Project Goal
 
-This project is licensed under the MIT License.
+Create a simple, modern, and accessible platform that makes English learning easier for students and content management easier for teachers.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
 
 ---
 
 ## 👨‍💻 Developer
 
-Built with 💙 by Muffixx (namıdiğer Yazıcı)
+Made with 💙 by **Muffixx (Yazıcı)**
+
+GitHub: https://github.com/Mustiskooo
