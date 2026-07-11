@@ -16,10 +16,12 @@ Built with 💙 by <b>Muffixx</b> (aka <i>Yazıcı</i>)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
-![Firebase Auth](https://img.shields.io/badge/Firebase-Authentication-orange.svg)
-![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020.svg)
-![Hugging Face](https://img.shields.io/badge/HuggingFace-Datasets-yellow.svg)
-![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E.svg)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+![Firebase Auth](https://img.shields.io/badge/Firebase-Authentication-FFCA28?logo=firebase&logoColor=black)
+![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-Datasets-FFD21E?logo=huggingface&logoColor=black)
 
 </p>
 
@@ -27,35 +29,39 @@ Built with 💙 by <b>Muffixx</b> (aka <i>Yazıcı</i>)
 
 ## 📖 About
 
-**EnglishWithTunahan** is a modern English learning platform developed for English teachers and students.
+**EnglishWithTunahan** is a modern English learning platform designed for English teachers and students.
 
-Teachers can securely upload lesson materials through an admin panel, while students can browse and download resources organized by **grade** and **unit**.
+Teachers can securely upload lesson materials through an admin panel, while students can easily browse and download files organized by **grade** and **unit**.
+
+The project focuses on being simple, fast, responsive and easy to maintain.
 
 ---
 
 ## ✨ Features
 
-- 🔐 Google Authentication (Firebase)
+- 🔐 Google Authentication
 - 👨‍🏫 Protected Admin Panel
 - 📤 Drag & Drop file uploads
 - ☁️ Cloudflare Workers backend
 - 🤗 Hugging Face Dataset storage
-- 📚 Grade & Unit based organization
+- 📚 Grade & Unit organization
 - 📥 Student download system
 - 📱 Fully responsive design
-- ⚡ Fast and lightweight interface
+- ⚡ Lightweight & fast interface
+- 🔒 Secure API tokens using Cloudflare Secrets
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
 - HTML5
 - CSS3
-- Vanilla JavaScript
+- Vanilla JavaScript (ES Modules)
 - Firebase Authentication
 - Cloudflare Workers
 - Hugging Face Datasets
-- Git & GitHub
+- Git
+- GitHub
 
 ---
 
@@ -64,11 +70,23 @@ Teachers can securely upload lesson materials through an admin panel, while stud
 ```text
 .
 ├── assets/
-├── css/
-├── js/
-├── pages/
-├── worker/
-└── index.html
+│   ├── icons/
+│   ├── images/
+│   └── pdfs/
+│
+├── .gitignore
+├── LICENSE
+├── README.md
+│
+├── index.html
+├── dashboard.html
+├── admin.html
+├── unit.html
+├── user.html
+├── about.html
+│
+├── app.js
+└── auth.js
 ```
 
 ---
@@ -81,35 +99,58 @@ Clone the repository:
 git clone https://github.com/Mustiskooo/englishwithtunahan.git
 ```
 
-Enter the project folder:
+Open the project:
 
 ```bash
 cd englishwithtunahan
 ```
 
-Open `index.html` or run the project using your preferred local web server.
+Run it using your preferred local web server.
 
 ---
 
-## 🔒 Authentication
+## 🔐 Authentication
 
 Authentication is handled using **Firebase Google Authentication**.
 
-Only authorized administrator accounts can access the admin panel.
+Only administrator accounts can access the admin panel.
 
 ---
 
 ## ☁️ File Storage
 
-Lesson files are uploaded through **Cloudflare Workers** and securely stored inside a **Hugging Face Dataset** repository.
+Lesson files are uploaded through a **Cloudflare Worker** and securely stored inside a **Hugging Face Dataset** repository.
 
-This architecture keeps sensitive API tokens hidden while providing version-controlled storage.
+Sensitive credentials remain protected using **Cloudflare Secrets**, ensuring they are never exposed to the client.
 
 ---
 
-## 🎯 Project Goal
+## 📸 Screenshots
 
-Create a simple, modern, and accessible platform that makes English learning easier for students and content management easier for teachers.
+Coming soon...
+
+---
+
+## 🎯 Project Goals
+
+- Make English learning more accessible.
+- Provide an easy way for teachers to manage lesson materials.
+- Deliver a clean, modern and responsive experience for students.
+
+---
+
+## 🗺️ Roadmap
+
+- [x] Google Authentication
+- [x] Admin Panel
+- [x] File Upload System
+- [x] Cloudflare Workers Integration
+- [x] Hugging Face Storage
+- [x] Mobile Responsive Design
+- [ ] Search System
+- [ ] File Preview
+- [ ] Admin Statistics
+- [ ] Multi-language Support
 
 ---
 
@@ -117,10 +158,13 @@ Create a simple, modern, and accessible platform that makes English learning eas
 
 This project is licensed under the **MIT License**.
 
+See the **LICENSE** file for more information.
+
 ---
 
 ## 👨‍💻 Developer
 
 Made with 💙 by **Muffixx (Yazıcı)**
 
-GitHub: https://github.com/Mustiskooo
+- 🌐 Website: https://englishwithtunahan.vercel.app
+- 💻 GitHub: https://github.com/Mustiskooo
