@@ -42,7 +42,7 @@ export function protectPage() {
 /* adminler (#babalar sözünü tutar#) */
 const ADMINS = new Set([
   "yazicimustafayazici05@gmail.com",
-  "HOCANINMAİLİ@gmail.com"
+  "tsertdemir@gmail.com"
 ]);
 
 export function isAdmin(user) {
