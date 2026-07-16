@@ -1,3 +1,10 @@
 # Assets
 assets/
 # your files
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
