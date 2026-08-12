@@ -8,5 +8,8 @@
   ],
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "HF_REPO": "Muffixx/englishwithtunahan-pdfs"
   }
 }
