@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "english-with-tunahan",
+  "name": "englishwithtunahan-api",
   "main": "src/index.js",
   "compatibility_date": "2026-07-16",
   "compatibility_flags": [
