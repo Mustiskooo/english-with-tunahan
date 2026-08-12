@@ -18,6 +18,14 @@ export default {
       });
     }
 
+    if (url.pathname === "/debug-env") {
+  return json({
+    hfTokenExists: !!env.HF_TOKEN,
+    hfRepoExists: !!env.HF_REPO,
+    hfRepoType: env.HF_REPO_TYPE || "dataset"
+  });
+}
+
     if (url.pathname === "/upload") {
       if (request.method !== "POST") {
         return json({
