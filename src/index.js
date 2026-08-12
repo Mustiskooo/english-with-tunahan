@@ -1,5 +1,3 @@
-import { uploadFiles } from "@huggingface/hub";
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -14,7 +12,7 @@ export default {
       return json({
         success: true,
         api: "EnglishWithTunahan API",
-        version: "2.0"
+        version: "3.0"
       });
     }
 
@@ -26,24 +24,16 @@ export default {
       });
     }
 
-    if (url.pathname !== "/upload") {
-      return json({
-        success: false,
-        error: "Not Found"
-      }, 404);
-    }
+    if (url.pathname === "/upload") {
+      if (request.method !== "POST") {
+        return json({
+          success: false,
+          error: "Only POST requests are allowed."
+        }, 405);
+      }
 
-    if (request.method !== "POST") {
-      return json({
-        success: false,
-        error: "Only POST requests are allowed."
-      }, 405);
-    }
-
-    try {
       const hfToken = env.HF_TOKEN;
       const repo = env.HF_REPO;
-      const repoType = env.HF_REPO_TYPE || "dataset";
 
       if (!hfToken || !repo) {
         return json({
@@ -52,69 +42,64 @@ export default {
         }, 500);
       }
 
-      const form = await request.formData();
+      try {
+        const grade = url.searchParams.get("grade");
+        const unit = url.searchParams.get("unit");
+        const filename = url.searchParams.get("filename");
 
-      const grade = form.get("grade");
-      const unit = form.get("unit");
-      const files = form.getAll("files");
-
-      const commitMessage =
-        form.get("commit_message") ||
-        `Upload files for Grade ${grade} - Unit ${unit}`;
-
-      if (!grade || !unit) {
-        return json({
-          success: false,
-          error: "Missing grade or unit."
-        }, 400);
-      }
-
-      const uploadList = [];
-
-      for (const file of files) {
-        if (!(file instanceof File)) {
-          continue;
+        if (!grade || !unit || !filename) {
+          return json({
+            success: false,
+            error: "Missing grade, unit or filename."
+          }, 400);
         }
 
-        uploadList.push({
-          path: `grade-${grade}/${unit}/${file.name}`,
-          content: file
-        });
-      }
+        const path = `grade-${grade}/${unit}/${filename}`;
 
-      if (uploadList.length === 0) {
+        const hfUrl =
+          `https://huggingface.co/api/datasets/${repo}/upload/${encodeURIComponent(path)}`;
+
+        const response = await fetch(hfUrl, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${hfToken}`,
+            "Content-Type": request.headers.get("Content-Type") || "application/octet-stream"
+          },
+          body: request.body
+        });
+
+        const text = await response.text();
+
+        if (!response.ok) {
+          return json({
+            success: false,
+            error: `Hugging Face returned ${response.status}`,
+            details: text
+          }, 502);
+        }
+
+        return json({
+          success: true,
+          message: "File successfully uploaded!",
+          path,
+          response: text
+        });
+      } catch (error) {
+        console.error("HF_UPLOAD_ERROR", error);
+
         return json({
           success: false,
-          error: "No valid files received."
-        }, 400);
+          error: error instanceof Error
+            ? error.message
+            : String(error)
+        }, 500);
       }
-
-      const result = await uploadFiles({
-        repo: {
-          type: repoType,
-          name: repo
-        },
-        accessToken: hfToken,
-        files: uploadList,
-        commitTitle: commitMessage
-      });
-
-      return json({
-        success: true,
-        message: "Files successfully uploaded!",
-        totalFiles: uploadList.length,
-        commitUrl: result?.commitUrl || result?.url || null
-      });
-    } catch (error) {
-      console.error("HF_UPLOAD_ERROR", error);
-
-      return json({
-        success: false,
-        error: error instanceof Error
-          ? error.message
-          : String(error)
-      }, 500);
     }
+
+    return json({
+      success: false,
+      error: "Not Found"
+    }, 404);
   }
 };
 
