@@ -8,8 +8,5 @@
   ],
   "observability": {
     "enabled": true
-  },
-  "assets": {
-    "directory": "."
   }
 }
