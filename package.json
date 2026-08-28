@@ -2,7 +2,4 @@
   "name": "english-with-tunahan",
   "private": true,
   "type": "module",
-  "dependencies": {
-    "@huggingface/hub": "latest"
-  }
 }
