@@ -12,7 +12,7 @@ export default {
       return json({
         success: true,
         api: "EnglishWithTunahan API",
-        version: "3.0"
+        version: "4.0"
       });
     }
 
@@ -24,82 +24,219 @@ export default {
       });
     }
 
-    if (url.pathname === "/upload") {
-      if (request.method !== "POST") {
+    if (url.pathname !== "/upload") {
+      return json({
+        success: false,
+        error: "Not Found"
+      }, 404);
+    }
+
+    if (request.method !== "POST") {
+      return json({
+        success: false,
+        error: "Only POST requests are allowed."
+      }, 405);
+    }
+
+    const hfToken = env.HF_TOKEN;
+    const repo = env.HF_REPO;
+
+    if (!hfToken || !repo) {
+      return json({
+        success: false,
+        error: "HF_TOKEN or HF_REPO is missing."
+      }, 500);
+    }
+
+    try {
+      const grade = url.searchParams.get("grade");
+      const unit = url.searchParams.get("unit");
+      const filename = url.searchParams.get("filename");
+      const sha256 = url.searchParams.get("sha256");
+      const size = Number(url.searchParams.get("size"));
+
+      if (!grade || !unit || !filename || !sha256 || !Number.isSafeInteger(size)) {
         return json({
           success: false,
-          error: "Only POST requests are allowed."
-        }, 405);
+          error: "Missing or invalid upload metadata."
+        }, 400);
       }
 
-      const hfToken = env.HF_TOKEN;
-      const repo = env.HF_REPO;
+      const path = `grade-${grade}/${unit}/${filename}`;
 
-      if (!hfToken || !repo) {
+      const lfsUrl =
+        `https://huggingface.co/datasets/${repo}.git/info/lfs/objects/batch`;
+
+      const batchResponse = await fetch(lfsUrl, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${hfToken}`,
+          "Accept": "application/vnd.git-lfs+json",
+          "Content-Type": "application/vnd.git-lfs+json"
+        },
+        body: JSON.stringify({
+          operation: "upload",
+          transfers: ["basic", "multipart"],
+          objects: [
+            {
+              oid: sha256,
+              size
+            }
+          ],
+          hash_algo: "sha256",
+          ref: {
+            name: "main"
+          }
+        })
+      });
+
+      const batchText = await batchResponse.text();
+
+      if (!batchResponse.ok) {
         return json({
           success: false,
-          error: "HF_TOKEN or HF_REPO is missing."
-        }, 500);
+          error: `HF LFS batch returned ${batchResponse.status}`,
+          details: batchText
+        }, 502);
       }
 
-      try {
-        const grade = url.searchParams.get("grade");
-        const unit = url.searchParams.get("unit");
-        const filename = url.searchParams.get("filename");
+      const batch = JSON.parse(batchText);
+      const object = batch.objects?.[0];
 
-        if (!grade || !unit || !filename) {
-          return json({
-            success: false,
-            error: "Missing grade, unit or filename."
-          }, 400);
+      if (!object) {
+        return json({
+          success: false,
+          error: "Hugging Face returned no LFS object."
+        }, 502);
+      }
+
+      if (object.error) {
+        return json({
+          success: false,
+          error: `HF LFS error ${object.error.code}`,
+          details: object.error.message
+        }, 502);
+      }
+
+      const uploadAction = object.actions?.upload;
+
+      if (uploadAction) {
+        const uploadHeaders = new Headers();
+
+        if (uploadAction.header) {
+          for (const [key, value] of Object.entries(uploadAction.header)) {
+            uploadHeaders.set(key, value);
+          }
         }
 
-        const path = `grade-${grade}/${unit}/${filename}`;
+        if (!uploadHeaders.has("Content-Type")) {
+          uploadHeaders.set(
+            "Content-Type",
+            request.headers.get("Content-Type") || "application/octet-stream"
+          );
+        }
 
-        const hfUrl =
-          `https://huggingface.co/api/datasets/${repo}/upload/${encodeURIComponent(path)}`;
-
-        const response = await fetch(hfUrl, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${hfToken}`,
-            "Content-Type": request.headers.get("Content-Type") || "application/octet-stream"
-          },
+        const uploadResponse = await fetch(uploadAction.href, {
+          method: "PUT",
+          headers: uploadHeaders,
           body: request.body
         });
 
-        const text = await response.text();
+        if (!uploadResponse.ok) {
+          const uploadText = await uploadResponse.text();
 
-        if (!response.ok) {
           return json({
             success: false,
-            error: `Hugging Face returned ${response.status}`,
-            details: text
+            error: `HF storage upload returned ${uploadResponse.status}`,
+            details: uploadText
           }, 502);
         }
+      }
 
-        return json({
-          success: true,
-          message: "File successfully uploaded!",
-          path,
-          response: text
+      const verifyAction = object.actions?.verify;
+
+      if (verifyAction) {
+        const verifyResponse = await fetch(verifyAction.href, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${hfToken}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            oid: sha256,
+            size
+          })
         });
-      } catch (error) {
-        console.error("HF_UPLOAD_ERROR", error);
 
+        if (!verifyResponse.ok) {
+          const verifyText = await verifyResponse.text();
+
+          return json({
+            success: false,
+            error: `HF LFS verification returned ${verifyResponse.status}`,
+            details: verifyText
+          }, 502);
+        }
+      }
+
+      const commitUrl =
+        `https://huggingface.co/api/datasets/${repo}/commit/main`;
+
+      const ndjson =
+        JSON.stringify({
+          key: "header",
+          value: {
+            summary: `Upload ${filename}`,
+            description: ""
+          }
+        }) +
+        "\n" +
+        JSON.stringify({
+          key: "lfsFile",
+          value: {
+            path,
+            algo: "sha256",
+            oid: sha256,
+            size
+          }
+        }) +
+        "\n";
+
+      const commitResponse = await fetch(commitUrl, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${hfToken}`,
+          "Content-Type": "application/x-ndjson"
+        },
+        body: ndjson
+      });
+
+      const commitText = await commitResponse.text();
+
+      if (!commitResponse.ok) {
         return json({
           success: false,
-          error: error instanceof Error
-            ? error.message
-            : String(error)
-        }, 500);
+          error: `HF commit returned ${commitResponse.status}`,
+          details: commitText
+        }, 502);
       }
-    }
 
-    return json({
-      success: false,
-      error: "Not Found"
-    }, 404);
+      return json({
+        success: true,
+        message: "File successfully uploaded!",
+        path,
+        commit: commitText
+      });
+    } catch (error) {
+      console.error("HF_UPLOAD_ERROR", error);
+
+      return json({
+        success: false,
+        error: error instanceof Error
+          ? error.message
+          : String(error)
+      }, 500);
+    }
   }
 };
 
