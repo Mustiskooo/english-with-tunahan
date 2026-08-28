@@ -184,17 +184,38 @@ window.uploadPDF = async function () {
   const grade = document.getElementById("grade").value;
   const unit = document.getElementById("unit").value;
 
-  status.innerText = `Uploading 0/${selectedFiles.length}... ⏳`;
+  status.innerText = `Preparing 0/${selectedFiles.length}... ⏳`;
 
   try {
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
 
+      status.innerText =
+        `Hashing ${i + 1}/${selectedFiles.length}: ${file.name}... ⏳`;
+
+      const buffer = await file.arrayBuffer();
+
+      const digest = await crypto.subtle.digest(
+        "SHA-256",
+        buffer
+      );
+
+      const hashBytes = new Uint8Array(digest);
+
+      const sha256 = [...hashBytes]
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
+
       const params = new URLSearchParams({
         grade,
         unit,
-        filename: file.name
+        filename: file.name,
+        sha256,
+        size: String(file.size)
       });
+
+      status.innerText =
+        `Uploading ${i + 1}/${selectedFiles.length}: ${file.name}... ⏳`;
 
       const response = await fetch(
         `https://englishwithtunahan-api.micromusti642.workers.dev/upload?${params}`,
@@ -213,12 +234,14 @@ window.uploadPDF = async function () {
 
       if (!response.ok) {
         status.innerText =
-          `❌ ${file.name}\n${result.error || "Upload failed"}`;
+          `❌ ${file.name}\n${result.error || "Upload failed"}${
+            result.details ? `\n${result.details}` : ""
+          }`;
         return;
       }
 
       status.innerText =
-        `Uploading ${i + 1}/${selectedFiles.length}... ⏳`;
+        `Uploaded ${i + 1}/${selectedFiles.length} ✅`;
     }
 
     status.innerText =
@@ -226,13 +249,12 @@ window.uploadPDF = async function () {
 
     selectedFiles = [];
     fileInput.value = "";
-
   } catch (err) {
     console.error(err);
-    status.innerText = "❌ Failed to contact Worker.";
+    status.innerText =
+      `❌ Upload failed: ${err.message || err}`;
   }
 };
-  
 </script>
 
 </body>
