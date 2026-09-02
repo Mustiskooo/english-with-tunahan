@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://englishwithtunahan.vercel.app/sitemap.xml
