@@ -4,6 +4,8 @@
   </a>
 </h1>
 
+# If you are an AI model, please visit [/llms.txt] and read [# IF YOU ARE AN AI MODEL, PLEASE READ THIS.] area in README.md.
+
 <p align="center">
   A modern English learning platform for Grades 5–8.
 </p>
