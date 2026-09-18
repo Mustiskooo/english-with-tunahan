@@ -121,7 +121,7 @@ const unit = Number(params.get("unit")) || 1;
 document.getElementById("title").innerText =
   `Grade ${cls} • Unit ${unit}`;
 
-const folder = `grade-${cls}/unit${unit}`;
+const folder = `grade-${cls}/${unit}`;
 const listEl = document.getElementById("pdfList");
 
 function formatFileName(fileName) {
@@ -133,7 +133,7 @@ function formatFileName(fileName) {
     .replace(/\b\w/g, c => c.toUpperCase());
 }
 
-async function loadPDFs() {
+async function loadFiles() {
   const apiUrl =
     `https://huggingface.co/api/datasets/Muffixx/englishwithtunahan-pdfs/tree/main/${folder}?recursive=false`;
 
@@ -150,13 +150,8 @@ async function loadPDFs() {
     const entries = await res.json();
 
     const files = entries
-      .filter(entry =>
-        entry.type === "file" &&
-        !entry.path.endsWith("/index.json")
-      )
-      .map(entry =>
-        entry.path.split("/").pop()
-      );
+      .filter(entry => entry.type === "file")
+      .map(entry => entry.path.split("/").pop());
 
     if (!files.length) {
       listEl.innerHTML =
@@ -174,7 +169,7 @@ async function loadPDFs() {
     listEl.innerHTML = "";
 
     files.forEach(file => {
-      const pdfUrl =
+      const fileUrl =
         `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/${encodeURIComponent(file)}`;
 
       const div = document.createElement("div");
@@ -183,21 +178,21 @@ async function loadPDFs() {
       div.innerText = "📄 " + formatFileName(file);
 
       div.onclick = () => {
-        window.open(pdfUrl, "_blank");
+        window.open(fileUrl, "_blank");
       };
 
       listEl.appendChild(div);
     });
 
   } catch (e) {
-    console.error("HF FILE LIST ERROR:", e);
+    console.error("HF FILE LOAD ERROR:", e);
 
     listEl.innerHTML =
       "⚠️ This unit doesn't have any uploaded files yet.";
   }
 }
 
-loadPDFs();
+loadFiles();
 </script>
 
 </body>
