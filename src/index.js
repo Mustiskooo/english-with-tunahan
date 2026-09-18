@@ -12,7 +12,7 @@ export default {
       return json({
         success: true,
         api: "EnglishWithTunahan API",
-        version: "4.0"
+        version: "5.0"
       });
     }
 
@@ -55,14 +55,22 @@ export default {
       const sha256 = url.searchParams.get("sha256");
       const size = Number(url.searchParams.get("size"));
 
-      if (!grade || !unit || !filename || !sha256 || !Number.isSafeInteger(size)) {
+      if (
+        !grade ||
+        !unit ||
+        !filename ||
+        !sha256 ||
+        !Number.isSafeInteger(size)
+      ) {
         return json({
           success: false,
           error: "Missing or invalid upload metadata."
         }, 400);
       }
 
-      const path = `grade-${grade}/${unit}/${filename}`;
+      const folder = `grade${grade}/unit${unit}`;
+      const path = `${folder}/${filename}`;
+      const indexPath = `${folder}/index.json`;
 
       const lfsUrl =
         `https://huggingface.co/datasets/${repo}.git/info/lfs/objects/batch`;
@@ -100,7 +108,18 @@ export default {
         }, 502);
       }
 
-      const batch = JSON.parse(batchText);
+      let batch;
+
+      try {
+        batch = JSON.parse(batchText);
+      } catch {
+        return json({
+          success: false,
+          error: "Hugging Face returned invalid JSON from LFS batch.",
+          details: batchText
+        }, 502);
+      }
+
       const object = batch.objects?.[0];
 
       if (!object) {
@@ -132,7 +151,8 @@ export default {
         if (!uploadHeaders.has("Content-Type")) {
           uploadHeaders.set(
             "Content-Type",
-            request.headers.get("Content-Type") || "application/octet-stream"
+            request.headers.get("Content-Type") ||
+            "application/octet-stream"
           );
         }
 
@@ -179,6 +199,56 @@ export default {
         }
       }
 
+      const indexUrl =
+        `https://huggingface.co/datasets/${repo}/resolve/main/${indexPath}`;
+
+      let files = [];
+
+      const indexResponse = await fetch(indexUrl, {
+        headers: {
+          "Authorization": `Bearer ${hfToken}`
+        }
+      });
+
+      if (indexResponse.ok) {
+        try {
+          const existingIndex = await indexResponse.json();
+
+          if (Array.isArray(existingIndex)) {
+            files = existingIndex;
+          }
+        } catch {
+          files = [];
+        }
+      }
+
+      if (!files.includes(filename)) {
+        files.push(filename);
+      }
+
+      files.sort((a, b) =>
+        a.localeCompare(b, undefined, {
+          numeric: true,
+          sensitivity: "base"
+        })
+      );
+
+      const indexContent = JSON.stringify(files, null, 2);
+
+      const indexBytes = new TextEncoder().encode(indexContent);
+
+      let binary = "";
+
+      const chunkSize = 0x8000;
+
+      for (let i = 0; i < indexBytes.length; i += chunkSize) {
+        binary += String.fromCharCode(
+          ...indexBytes.subarray(i, i + chunkSize)
+        );
+      }
+
+      const indexBase64 = btoa(binary);
+
       const commitUrl =
         `https://huggingface.co/api/datasets/${repo}/commit/main`;
 
@@ -187,7 +257,7 @@ export default {
           key: "header",
           value: {
             summary: `Upload ${filename}`,
-            description: ""
+            description: "EnglishWithTunahan file upload"
           }
         }) +
         "\n" +
@@ -198,6 +268,15 @@ export default {
             algo: "sha256",
             oid: sha256,
             size
+          }
+        }) +
+        "\n" +
+        JSON.stringify({
+          key: "file",
+          value: {
+            path: indexPath,
+            content: indexBase64,
+            encoding: "base64"
           }
         }) +
         "\n";
@@ -223,8 +302,10 @@ export default {
 
       return json({
         success: true,
-        message: "File successfully uploaded!",
+        message: "File successfully uploaded and index.json updated!",
         path,
+        indexPath,
+        files,
         commit: commitText
       });
     } catch (error) {
