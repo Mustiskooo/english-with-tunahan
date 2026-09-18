@@ -126,21 +126,21 @@ const listEl = document.getElementById("pdfList");
 
 function formatFileName(fileName) {
   return fileName
-    .replace(/\.[^/.]+$/, "") // .pdf kaldır
-    .replace(/^[a-f0-9-]{36}-/i, "") // UUID kaldır
-    .replace(/^\d+[-_ ]*/, "") // 01-, 02_ vb.
-    .replace(/[-_]+/g, " ") // - ve _ → boşluk
-    .replace(/\b\w/g, c => c.toUpperCase()); // Capitalize
+    .replace(/\.[^/.]+$/, "")
+    .replace(/^[a-f0-9-]{36}-/i, "")
+    .replace(/^\d+[-_ ]*/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
 }
 
 async function loadPDFs() {
-
   const indexUrl =
     `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/index.json`;
 
   try {
-
-    const res = await fetch(indexUrl);
+    const res = await fetch(indexUrl, {
+      cache: "no-store"
+    });
 
     if (!res.ok) {
       listEl.innerHTML = "No files found 😢";
@@ -148,26 +148,28 @@ async function loadPDFs() {
     }
 
     const files = await res.json();
-      if (!files.length) {
-  listEl.innerHTML = "⚠️ This unit doesn't have any uploaded files yet.";
-  return;
-}
 
-    // sıralama
+    if (!Array.isArray(files) || files.length === 0) {
+      listEl.innerHTML =
+        "⚠️ This unit doesn't have any uploaded files yet.";
+      return;
+    }
+
     files.sort((a, b) =>
-      a.localeCompare(b, undefined, { numeric: true })
+      a.localeCompare(b, undefined, {
+        numeric: true,
+        sensitivity: "base"
+      })
     );
 
     listEl.innerHTML = "";
 
     files.forEach(file => {
-
       const pdfUrl =
-  `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/${encodeURIComponent(file)}`;
-        
+        `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/${encodeURIComponent(file)}`;
+
       const div = document.createElement("div");
       div.className = "item";
-
       div.innerText = "📄 " + formatFileName(file);
 
       div.onclick = () => {
@@ -178,12 +180,15 @@ async function loadPDFs() {
     });
 
   } catch (e) {
-   listEl.innerHTML =
-"⚠️ This unit doesn't have any uploaded files yet.";
+    console.error("PDF LOAD ERROR:", e);
+
+    listEl.innerHTML =
+      "⚠️ This unit doesn't have any uploaded files yet.";
   }
 }
 
 loadPDFs();
+</script>
 </script>
 
 </body>
