@@ -121,7 +121,7 @@ const unit = Number(params.get("unit")) || 1;
 document.getElementById("title").innerText =
   `Grade ${cls} • Unit ${unit}`;
 
-const folder = `grade${cls}/unit${unit}`;
+const folder = `grade-${cls}/unit${unit}`;
 const listEl = document.getElementById("pdfList");
 
 function formatFileName(fileName) {
