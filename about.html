@@ -1,169 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>About - EnglishWithTunahan</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>About - EnglishWithTunahan</title>
+  <meta name="description" content="About EnglishWithTunahan and its developer, Mustiskooo.">
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter,sans-serif;
-}
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --card: #17171c;
+      --border: #27272f;
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --accent: #a78bfa;
+    }
 
-body{
-background:#0b0f1a;
-color:white;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* TOP */
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 20px;
-background:rgba(255,255,255,.03);
-border-bottom:1px solid rgba(255,255,255,.08);
-}
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 80px 24px;
+    }
 
-.back{
-padding:8px 14px;
-border-radius:10px;
-background:rgba(255,255,255,.05);
-cursor:pointer;
-transition:.2s;
-}
+    main {
+      width: 100%;
+      max-width: 850px;
+    }
 
-.back:hover{
-background:rgba(108,92,231,.25);
-}
+    .back {
+      display: inline-block;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 55px;
+      transition: color 0.2s ease;
+    }
 
-.title{
-font-size:18px;
-font-weight:600;
-}
+    .back:hover {
+      color: var(--text);
+    }
 
-/* CONTENT */
-.container{
-max-width:900px;
-margin:auto;
-padding:30px 20px;
-}
+    header {
+      margin-bottom: 55px;
+    }
 
-.card{
-background:rgba(255,255,255,.03);
-border:1px solid rgba(255,255,255,.08);
-border-radius:16px;
-padding:24px;
-margin-bottom:20px;
-backdrop-filter:blur(12px);
-}
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
 
-.card h2{
-margin-bottom:15px;
-font-size:22px;
-}
+    h1 {
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
 
-.card h3{
-margin-top:20px;
-margin-bottom:8px;
-color:#6c5ce7;
-}
+    .intro {
+      max-width: 580px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+      margin-top: 22px;
+    }
 
-.card p{
-opacity:.85;
-line-height:1.7;
-margin-bottom:10px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
 
-ul{
-padding-left:20px;
-line-height:1.8;
-opacity:.9;
-}
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+    }
 
-.footer{
-text-align:center;
-opacity:.45;
-font-size:13px;
-margin-top:40px;
-padding-bottom:25px;
-}
-</style>
+    .card.full {
+      grid-column: 1 / -1;
+    }
+
+    .card-label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: 24px;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 650px) {
+      body {
+        padding: 45px 18px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card.full {
+        grid-column: auto;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="top">
-<div class="back" onclick="history.back()">← Dashboard</div>
-<div class="title">About This Website</div>
-<div></div>
-</div>
+  <main>
 
-<div class="container">
+    <a href="/" class="back">← Back</a>
 
-<div class="card">
+    <header>
+      <div class="eyebrow">About</div>
 
-<h2>EnglishWithTunahan</h2>
+      <h1>EnglishWithTunahan</h1>
 
-<p>
-EnglishWithTunahan is a free English learning platform created for Turkish middle school students.
-Its goal is to make English lessons simpler, more organized, and easier to access.
-</p>
+      <p class="intro">
+        A simple place for learning English, sharing materials,
+        and keeping everything accessible in one place.
+      </p>
+    </header>
 
-<h3>📚 Features</h3>
+    <section class="grid">
 
-<ul>
-<li>Grade 5–8 Units</li>
-<li>PDF Notes</li>
-<li>Worksheets</li>
-<li>Slides & Presentations</li>
-<li>Quizlet Sets</li>
-<li>More resources coming soon</li>
-</ul>
+      <div class="card">
+        <div class="card-label">The Project</div>
 
-<h3>👨‍💻 About the Creator</h3>
+        <h2>EnglishWithTunahan</h2>
 
-<p>
-HOCAM BURAYA BİR YAZI VERELİM SİZİN HAKKINIZDA
-</p>
+        <p>
+          An educational platform built around English courses,
+          materials, PDFs and useful resources.
+        </p>
+      </div>
 
-  <h3>👨‍💻 About the Coder</h3>
-  <p>
-    ben yazarım burayı
-  </p>
-<h3>⚙️ Built With</h3>
+      <div class="card">
+        <div class="card-label">Developer</div>
 
-<ul>
-<li>HTML</li>
-<li>CSS</li>
-<li>JavaScript</li>
-<li>Firebase</li>
-<li>GitHub Pages</li>
-<li>Next.js</li>
-<li>Cloudflare Workers</li>
-<li>Hugging Face</li>
-</ul>
+        <h2>Mustiskooo</h2>
 
-<h3>❤️ Thank You</h3>
+        <p>
+          A student and developer who enjoys building websites,
+          tools and small projects while learning along the way.
+        </p>
+      </div>
 
-<p>
-Thank you for visiting EnglishWithTunahan.
-I hope this website helps you improve your English and makes learning more enjoyable.
-</p>
+      <div class="card full">
+        <div class="card-label">Built With</div>
 
-</div>
+        <div class="stack">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Vercel</span>
+          <span class="tag">Cloudflare</span>
+          <span class="tag">Hugging Face</span>
+        </div>
+      </div>
 
-<div class="footer">
-EnglishWithTunahan • Version v1.0.0<br>
-© 2026 Tunahan. All rights reserved.
-</div>
+    </section>
 
-</div>
+    <footer>
+      <span>Made by Mustiskooo</span>
+      <span>© 2026 EnglishWithTunahan</span>
+    </footer>
+
+  </main>
 
 </body>
 </html>
