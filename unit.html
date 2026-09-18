@@ -118,6 +118,27 @@ const params = new URLSearchParams(location.search);
 const cls = Number(params.get("class")) || 5;
 const unit = Number(params.get("unit")) || 1;
 
+// kachow-easter!
+if (cls === 95) {
+  document.getElementById("title").innerText = "KA-CHOW! ⚡";
+  document.getElementById("pdfList").innerHTML = `
+    <div style="
+      text-align: center;
+      font-size: 2rem;
+      padding: 40px 20px;
+      font-weight: bold;
+    ">
+      ⚡🏎️💨
+      <br>
+      <span style="font-size: 1.2rem;">
+        Speed. I am speed.
+      </span>
+    </div>
+  `;
+
+  throw new Error("Lightning McQueen easter egg triggered");
+}
+
 document.getElementById("title").innerText =
   `Grade ${cls} • Unit ${unit}`;
 
