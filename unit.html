@@ -134,11 +134,11 @@ function formatFileName(fileName) {
 }
 
 async function loadPDFs() {
-  const indexUrl =
-    `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/index.json`;
+  const apiUrl =
+    `https://huggingface.co/api/datasets/Muffixx/englishwithtunahan-pdfs/tree/main/${folder}?recursive=false`;
 
   try {
-    const res = await fetch(indexUrl, {
+    const res = await fetch(apiUrl, {
       cache: "no-store"
     });
 
@@ -147,9 +147,18 @@ async function loadPDFs() {
       return;
     }
 
-    const files = await res.json();
+    const entries = await res.json();
 
-    if (!Array.isArray(files) || files.length === 0) {
+    const files = entries
+      .filter(entry =>
+        entry.type === "file" &&
+        !entry.path.endsWith("/index.json")
+      )
+      .map(entry =>
+        entry.path.split("/").pop()
+      );
+
+    if (!files.length) {
       listEl.innerHTML =
         "⚠️ This unit doesn't have any uploaded files yet.";
       return;
@@ -169,6 +178,7 @@ async function loadPDFs() {
         `https://huggingface.co/datasets/Muffixx/englishwithtunahan-pdfs/resolve/main/${folder}/${encodeURIComponent(file)}`;
 
       const div = document.createElement("div");
+
       div.className = "item";
       div.innerText = "📄 " + formatFileName(file);
 
@@ -180,7 +190,7 @@ async function loadPDFs() {
     });
 
   } catch (e) {
-    console.error("PDF LOAD ERROR:", e);
+    console.error("HF FILE LIST ERROR:", e);
 
     listEl.innerHTML =
       "⚠️ This unit doesn't have any uploaded files yet.";
@@ -188,7 +198,6 @@ async function loadPDFs() {
 }
 
 loadPDFs();
-</script>
 </script>
 
 </body>
